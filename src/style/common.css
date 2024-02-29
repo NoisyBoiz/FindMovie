@@ -1,0 +1,293 @@
+:root{
+    --widthCardCommon: 12vw;
+}
+.commonContainer{
+    padding: 1% 3%;
+}
+.commonContainer h2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+}
+.commonContainer h2>span{
+    background-color: var(--colorRed);
+    padding: 0.1% 1.5%;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    margin: 0 1%;
+}
+
+.topCommonContainer{
+    display: grid;
+    grid-template-columns: repeat(5,20%);
+    row-gap: 1.5rem;
+    justify-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+.commonCard{
+    width: fit-content;
+    height: calc(var(--widthCardCommon)*3/2 + var(--widthCardCommon)*3/12);
+    margin: 1% 1.5%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    position: relative;
+    border-radius: 1.2rem;
+    animation: loadCard 0.5s ease-in-out forwards;
+}
+.commonCard a{
+    text-decoration: none;
+    color: var(--colorTextWhite);
+    font-size: 0.9rem;
+}
+.commonCard img{
+    width: var(--widthCardCommon);
+    height: calc(var(--widthCardCommon)*3/2);
+    border-radius: 1.2rem;
+    transition: transform 0.5s ease-in-out;
+}
+.commonCardComming{
+    margin: 0;
+    padding: 0 0.5rem;
+    width: fit-content;
+    height: 1.3rem;
+    font-size: 0.6rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    position: absolute;
+    top: 4%;
+    left: 4%;
+    color: rgb(240, 240, 240) !important;
+    background-color: var(--colorRed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+.commonCardRate{
+    margin: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    color: rgb(242, 242, 242) !important;
+    font-size: 0.75rem;
+    font-weight: 500;
+    position: absolute;
+    top: 4%;
+    right: 4%;
+    background-color: var(--colorRed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.commonCardContent{
+    width: var(--widthCardCommon);
+    height: calc(var(--widthCardCommon)*3/12);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.commonCardName{
+    margin: 0;
+    padding: 2% 3%;
+    width: 94%;
+    height: fit-content;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.commonCardDay{
+    margin: 0;
+    padding: 0 3%;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--colorRed);
+    font-style: italic;
+}
+.bottomCommonContainer{
+    width: 100%;
+    margin: 2rem 0 1rem 0;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.prePageCommon,.nextPageCommon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0.4rem;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--colorRed);
+    background-color: var(--colorButtonWhite);
+    transition: background-color 0.2s ease-in-out,color 0.2s ease-in-out;
+    cursor: pointer;
+}
+.prePageCommon:disabled,.nextPageCommon:disabled{
+    color: var(--colorTextDisabled);
+    background-color: var(--colorButtonDisabled);
+    cursor: not-allowed;
+}
+.indexPageCommon{
+    width: fit-content;
+    background-color: var(--colorBgPagination);
+    border-radius: 0.8rem;
+    padding: 0.4rem;
+}
+.indexPageCommon button{
+    margin: 0 0.2rem; 
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.6rem;
+    color: var(--colorTextWhite);
+    transition: background-color 0.3s ease-in-out;
+  
+}
+.indexPageCommon button:nth-child(1){
+    margin: 0 0.2rem 0 0; 
+}
+.indexPageCommon button:nth-last-child(1){
+    margin: 0 0 0 0.2rem; 
+}
+.focusButtonCommon{
+    background-color: var(--colorRed);
+}
+.unfocusButtonCommon{
+    background-color: transparent;
+    cursor: pointer;
+}
+.inputPageCommon{
+    height: 2rem;
+    padding: 0.2rem 0.4rem;
+    background-color: var(--colorBgPagination);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+}
+.inputPageCommon input{
+    width: 3rem;
+    padding: 0.2rem;
+    font-size: 1rem;
+    background-color: var(--colorBgInput);
+    border: none;
+    border-radius: 0.3rem;
+    color: var(--colorTextWhite);
+    transition: background-color 0.3s ease-in-out;
+}
+.inputPageCommon input:focus{
+    background-color: rgba(255, 0, 60, 0.6);
+    outline: none;
+}
+.inputPageCommon input::-webkit-outer-spin-button,
+.inputPageCommon input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.inputPageCommon span{
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-left: 0.3rem;
+    color: var(--colorRed);
+}
+.buttonMoreCommon{
+    width: clamp(7rem,3vw,8rem);
+    height: clamp(2.2rem,3vw,2.5rem);
+    margin: 1rem 0;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgb(242, 242, 242) !important;
+    background-color: var(--colorRed);
+    transition: background-color 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.buttonMoreCommon span,.buttonMoreCommon i{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: transform 0.4s ease-in-out;
+}
+.buttonMoreCommon i{
+    top:-100%;
+    font-size: clamp(1.2rem,3vw,1.5rem);
+    font-weight: 900;
+    background: linear-gradient(to top, #ffffff, #0f093d,#0f093d,#ffffff );
+	background-size: 400% 400%;
+    background-clip: text;
+    color: transparent;
+	animation: gradient 1s ease-in-out infinite;
+}
+.buttonMoreCommon:hover span,.buttonMoreCommon:hover i{
+    transform: translateY(100%);
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+@keyframes loadCard{
+    0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@media screen and (max-width: 1024px){
+    :root{
+        --widthCardCommon: 15vw;
+    }
+    .topCommonContainer{
+        grid-template-columns: repeat(4,25%);
+    }
+}
+@media screen and (max-width: 760px){
+    :root{
+        --widthCardCommon: 26vw;
+    }
+    .topCommonContainer{
+        grid-template-columns: repeat(3,calc(100% / 3));
+    }
+}
+@media screen and (max-width: 480px){
+    :root{
+        --widthCardCommon: 38vw;
+    }
+    .topCommonContainer{
+        grid-template-columns: repeat(2,calc(100% / 2));
+    }
+}
+@media screen and (max-width: 360px){
+    :root{
+        --widthCardCommon: 50vw;
+    }
+    .topCommonContainer{
+        grid-template-columns: 100%;
+    }
+}

@@ -1,0 +1,663 @@
+:root{
+    --heightDetailPoster: 20vw;
+    --widthActorCard: clamp(8rem,8rem + 0.5vw,12rem);
+    --PI: 3.14159265358979; 
+    --rCricleRate: clamp(1rem, 1rem + 0.5vw ,1.5rem);
+    --strokeWCricleRate: clamp(0.2rem , 0.2rem + 0.5vw, 0.4rem);
+    --voteRate:10;
+}
+.detail{
+    width: 100%;
+    height: max-content;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+}
+.backPage{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    z-index: 2;
+}
+.detailBackDrop{
+    width: 100%;
+    height: 90vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.detailBackDrop::after{
+    width: 100%;
+    height: 100%;  
+    background: linear-gradient(to top,var(--colorBgBody) 5%,transparent 30% );
+    background-color: var(--colorBgDetail);
+    position: absolute;
+    top:0;
+    left: 0;
+    content: "";
+    z-index: 1;
+}
+.detailBackDrop img{
+    width: 100%;
+    height: 100%;
+}
+.detailContent{
+    width: 80%;
+    height: fit-content;
+    z-index: 1;
+    margin: 2vh 0 3rem 0;
+}
+.topDetailContent{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 65% 35%;
+    align-items: center;
+    margin: 0 0 2rem 0;
+    position: relative;
+    z-index: 1;
+    border-bottom: 0.05rem solid var(--colorBorderSearch);
+}
+.topDetailContent h3{
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+}
+.buttonTopDC{  
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 0 5%;
+    align-items: center;
+}
+
+.shareBTDC{
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+    padding: 0.2rem 0;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw,1.1rem);
+    font-weight: 600;
+    float: right;
+    color: rgb(242, 242, 242) !important;
+    background-color: var(--colorRed);
+    border: none;
+    margin: 0 0.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.shareBTDC:hover{
+    box-shadow: 0 0 1rem var(--colorRed);
+}
+.shareBTDC i{
+    color: rgb(242, 242, 242);
+    font-size: clamp(0.8rem,0.8rem + 0.5vw,1rem);
+    padding: 0 clamp(0.05rem, 0.05rem + 1vw, 0.2rem) 0 0;
+}
+.favoriteBTDC{
+    box-sizing: border-box;
+    width: 100%;
+    height: fit-content;
+    padding: 0.2rem 0;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1.1rem);
+    font-weight: 600;
+    float: right;
+    border: none;
+    margin: 0 0.5rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out,background-color 0.15s ease-in-out,color 0.15s ease-in-out;
+}
+.favoriteBTDC:hover{
+    box-shadow: 0 0 1rem #b1b1b1;
+}
+.favoriteBTDC i{
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+    padding: 0 clamp(0.05rem, 0.05rem + 1vw, 0.2rem) 0 0;
+    transition: all 0.15s ease-in-out;
+}
+.activeFavoriteDetail{
+    color: azure;
+    background-color: var(--colorRed);
+}
+.inactiveFavoriteDetail{
+    color: rgb(18, 18, 18);
+    background-color: rgb(242, 242, 242);
+}
+.activeFavoriteDetail i{
+    color: var(--colorRed);
+    -webkit-text-stroke: 0.1rem #ffffff;
+}
+.inactiveFavoriteDetail i{
+    color: transparent;
+    -webkit-text-stroke: 0.1rem var(--colorRed);
+}
+.centerDetailContent{
+    width: 100%;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+.leftDetailContent{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.detailPosterImg {
+    width: calc(var(--heightDetailPoster)*2/3);
+    height: var(--heightDetailPoster);
+    z-index: 1;
+    filter: brightness(1.1) saturate(1.1) contrast(1.1);
+    box-shadow: 0 0 1rem var(--colorBorderWhite);
+}
+.bottomLDContent{
+    width: calc(var(--heightDetailPoster)*2/3);
+    margin: 1rem 0 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.bottomLDContent p{
+    margin: 0;
+    font-size: clamp(0.6rem,0.6rem + 0.5vw,1.1rem);
+    font-weight: 500;
+}
+.bottomLDContent p >span{
+    font-size: clamp(0.6rem,0.6rem + 0.5vw,1.1rem);
+    font-style: italic;
+    color: var(--colorTextWhite);
+}
+.rateContainer{
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+.circleRate{
+    transform: rotate(-90deg);
+    width: calc((var(--rCricleRate) + var(--strokeWCricleRate))*2);
+    height: calc((var(--rCricleRate) + var(--strokeWCricleRate))*2);
+}
+.fillCircle{
+    cx: calc(var(--rCricleRate) + var(--strokeWCricleRate));
+    cy: calc(var(--rCricleRate) + var(--strokeWCricleRate));
+    r: var(--rCricleRate);
+    stroke-width: var(--strokeWCricleRate);
+    stroke: rgba(255, 255, 255, 0.5);
+}
+.barCircleRate{
+    cx: calc(var(--rCricleRate) + var(--strokeWCricleRate));
+    cy: calc(var(--rCricleRate) + var(--strokeWCricleRate));
+    r: var(--rCricleRate);
+    stroke-width:var(--strokeWCricleRate);
+    stroke:var(--colorRed);
+    stroke-dasharray: calc(var(--rCricleRate) * var(--PI) * 2);
+    stroke-dashoffset: calc((10 - var(--voteRate))*(var(--rCricleRate) * var(--PI) * 2)/10);
+    transition: stroke-dashoffset 0.5s ease-in-out, stroke 0.5s ease-in-out ;
+}
+.detailRate{
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: clamp(0.5rem,0.5rem + 0.5vw,1.1rem);
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rightDetailContent{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 2% 2%;
+    z-index: 1;
+    color: var(--colorTextWhite);
+    font-weight: 500;
+    background-color: var(--colorBgDetail);
+}
+.detailTitle{
+    font-size: clamp(1.2rem,1.2rem + 1vw,2rem);
+    margin: 0 0 1rem 0;
+}
+.detailGenres{
+    width: 100%;
+    text-transform: uppercase;
+}
+.detailGenres span{
+    font-size: clamp(0.7rem,0.7rem + 0.5vw,1rem);
+    display: inline-block;
+    padding:0 0.5rem;
+    border-left: 0.05rem solid var(--colorTextGray);
+}
+.detailGenres span:nth-child(1){
+    padding:0 0.5rem 0 0;
+    border: none;
+}
+.detailDate span{
+    color: var(--colorTextWhite);
+    font-style: italic;
+}
+
+.detailRuntime span{
+    color: var(--colorTextWhite);
+    font-style: italic;
+}
+.detailOverview{
+    width: 90%;
+    z-index: 1;
+}
+.detailOverview p{
+    color: var(--colorTextWhite);
+    font-style: italic;
+    margin-bottom: 0.2rem;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+}
+.detailOverview p>span{
+    color: var(--colorRed);
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+    font-weight: 400;
+    font-style: italic;
+    
+    margin-bottom: 0.2rem;
+    margin: 0;
+    display: inline;
+}
+.trailerDetailContainer{
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    z-index: 1;
+    margin: 2rem 0 0 0;
+}
+.trailerDetailContainer p{
+    color: var(--colorTextWhite);
+    font-style: italic;
+    margin-bottom: 0.2rem;
+}
+.trailerDetailContainer p >span{
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--colorRed);
+}
+.slideTDContainer{
+    width: 100%;
+    overflow-X: auto;
+}
+.slideTDContainer::-webkit-scrollbar{
+    display: none;
+}
+.slideTD{
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+}
+.buttonShowTrailer{
+    margin: 0 1rem 0 0;
+    padding: 0;
+    width: fit-content;
+    height: fit-content;
+    color: rgb(240, 240, 240) !important;
+    border: none;
+    background-color: transparent;
+    backdrop-filter: blur(1rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+}
+.buttonShowTrailer i{
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: rgb(240, 240, 240) !important;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+}
+.buttonHiddenTrailer{
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--colorTextWhite);
+    position: absolute;
+    top:5%;
+    right:5%;
+    border-radius: 50%;
+    border: 0.1rem solid var(--colorTextWhite);
+    background-color: transparent;
+    transform: rotate(45deg);
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+.buttonHiddenTrailer:hover{
+    background-color: white;
+    color: black;
+}
+.trailerContainer{
+    width: calc(100% - var(--widthNavBar));
+    height: 90vh;
+    position: fixed;
+    top:10vh;
+    left: var(--widthNavBar);
+    z-index: 2;
+    background-color: rgba(250, 235, 215, 0.4);
+    backdrop-filter: blur(0.01rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.showTrailer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hiddenTrailer{
+    display: none;
+}
+.detailActorContainer{
+    width: 100%;
+}
+.detailActorContainer p{
+    margin: 2rem 0 1rem 2%;
+    font-size: clamp(1rem,1rem + 0.5vw, 1.2rem);
+}
+.listActorContainer{
+    width: 98%;
+    height: calc(var(--widthActorCard)*1.7);
+    overflow-X: auto;
+    overflow-y: hidden;
+    margin: 1%;
+    display: flex;
+    align-items: center;
+}
+.listActorContainer::-webkit-scrollbar{
+    display: none;
+}
+.slideActor{
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+}
+.actorCard{
+    width: var(--widthActorCard);
+    height: calc(var(--widthActorCard)*1.65);
+    margin: 0 0.5rem;
+    background-color: var(--colorBgFooter);
+    border-radius: 0.6rem;
+    box-shadow: 0 0 0.5rem var(--colorShadowComment);
+}
+.actorCard img{
+    width: var(--widthActorCard);
+    height: calc(var(--widthActorCard)*7/6);
+    border-top-left-radius: 0.6rem;
+    border-top-right-radius: 0.6rem;
+}
+.actorCard p{
+    margin: 0;
+    padding: 0.15rem 0.15rem;
+}
+.actorCard > p:nth-child(2){
+    font-size:  clamp(0.6rem,0.6rem + 0.5vw,0.9rem);
+}
+.actorCard > p:nth-child(3){
+    font-size:  clamp(0.5rem,0.5rem + 0.5vw,0.8rem);
+    color: var(--colorBorderWhite);
+}
+
+.cmtDetailContainer{
+    width: 96%;
+    height: fit-content;
+    padding: 2%;
+}
+.cmtDetailContainer p{
+    margin: 2rem 0 1rem 0;
+    font-size: clamp(1rem,1rem + 0.5vw, 1.2rem);
+}
+.cmtDetailCard{
+    margin: 1rem 0 0 0;
+    padding: 2.5%;
+    width: 95%;
+    height: fit-content;
+    border-radius: 3rem;
+    box-shadow: 0 0 1rem var(--colorShadowComment);
+}
+.topCmtCard{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-direction: row ;
+}
+.authorCmtImg{
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: rgb(75, 75, 75);
+}
+.authorCmtImg img{
+    width: 3.5rem;
+    height: 3.5rem;
+}
+.authorCmtCard{
+    width: calc(97% - 3.5rem);
+    margin: 0 0 0 3%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+.authorCmtCard h3{
+    margin: 0;
+}
+.authorCmtCard span{
+    float: right;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: 400;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+}
+.authorCmtCard span > p{
+    color: rgb(255, 215, 16);
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+    margin: 0 0.3rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.authorCmtCard p{
+    margin: 0;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+    color: var(--colorBorderWhite);
+}
+.centerCmtCard{
+    font-size: clamp(0.75rem,0.75rem + 0.5vw, 0.9rem);
+    width: 100%;
+    padding: 1.2rem 0 0 0;
+    color: var(--colorTextWhite);
+}
+.yourCmtCrad{
+    width: 100%;
+    height: fit-content;
+    position: relative;
+    margin: 1rem 0 0 0;
+}
+.yourCmtCrad textarea{
+    box-sizing: border-box;
+    width: 100%;
+    height: 7rem;
+    border-radius: 1.3rem;
+    padding: 1rem 5.8rem 1rem 1rem;
+    margin: 0;
+    border: 0;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw,1rem);
+    color: var(--colorTextWhite);
+    background-color: var(--colorBgComment);
+    overflow: hidden;
+    transition: background-color 0.15s ease-in-out;
+    resize: none;
+    box-shadow: 0 0 1rem var(--colorShadowComment);
+}
+.yourCmtCrad textarea:focus{
+    outline: none;
+    background-color: var(--colorBgCommentFocus);
+}
+.yourCmtCrad textarea::placeholder{
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.8rem,0.8rem + 0.5vw, 1rem);
+}
+.yourCmtCrad button{
+    padding: clamp(0.1rem,0.1rem + 0.5vw ,0.2rem) clamp(0.9rem,0.9rem + 0.5vw ,1rem) clamp(0.1rem,0.1rem + 0.5vw ,0.2rem) clamp(0.75rem,0.75rem + 0.5vw ,0.85rem);
+    border: 0;
+    border-radius: 2rem;
+    background-color: var(--colorRed);
+    color: rgb(242, 242, 242) !important;
+    font-size: clamp(0.75rem,0.75rem + 0.5vw,1rem);
+    font-weight: 600;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    cursor: pointer;
+    border: 0.1rem solid var(--colorRed);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+.yourCmtCrad button:hover{
+    background-color: transparent;
+    color: var(--colorRed);
+}
+
+.emptyDataDetail{
+    width: 100%;
+    height: 90vh;
+    position: relative;
+    background-color: var(--colorBgEmpty);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0; 
+}
+.emptyDataDetail h1{
+    margin: 0;
+    font-size: clamp(12rem,12rem + 0.5vw, 20rem);
+    font-weight: 900;
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%); */
+    color: var(--colorTextEmpty);
+    text-shadow:  clamp(0.4rem,0.5rem + 0.5vw, 0.8rem) clamp(0.4rem,0.5rem + 0.5vw, 0.8rem) clamp(0.4rem,0.5rem + 0.5vw, 0.8rem) var(--colorTextShadow);
+}
+.emptyDataDetail i{
+    font-size: clamp(10rem,10rem + 0.5vw, 15rem);
+    padding: 0 0.4rem;
+}
+.emptyDataDetail span{
+    width: 100%;
+    font-size: clamp(1rem,1rem + 0.5vw, 3rem);
+    font-weight: 700;
+    text-align: center;
+    /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%); */
+    color: var(--colorTextEmpty);
+    text-shadow:  clamp(0.1rem,0.1rem + 0.5vw, 0.3rem) clamp(0.1rem,0.1rem + 0.5vw, 0.3rem) clamp(0.1rem,0.1rem + 0.5vw, 0.3rem) var(--colorTextShadow);  
+}
+.trailerMovie{
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 1024px){
+    :root{
+        --heightDetailPoster: 20vw;
+        --widthActorCard: clamp(7rem,7rem + 0.5vw,10rem);
+        --rCricleRate: 1.5rem;
+        --strokeWCricleRate: 0.4rem;
+        --voteRate:10;
+    }
+    .detailBackDrop{
+        height: clamp(70vh,70vh + 2vw,80vh);
+    }
+    .topDetailContent{
+        grid-template-columns: 50% 50%;
+    }
+}
+@media screen and (max-width: 760px){
+    :root{
+        --heightDetailPoster: 80vw;
+        --widthActorCard: clamp(8rem,8rem + 2vw,12rem);
+        --rCricleRate: 1.5rem;
+        --strokeWCricleRate: 0.4rem;
+        --voteRate:10;
+    }
+    .detailBackDrop{
+        height: clamp(50vh,50vh + 0.5vw,55vh);
+    }
+    .centerDetailContent{
+        grid-template-columns: 100%;
+    }
+    .leftDetailContent{
+        margin: 8rem 0 0 0;
+    }
+    .topDetailContent{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+    .topDetailContent h3{
+        order: 2;
+    }
+    .buttonTopDC{ 
+        order: 1;
+        justify-items: center;
+    }
+    .shareBTDC{
+        width: 8rem;
+    }
+    .favoriteBTDC{
+        width: 8rem;
+    }
+    .trailerContainer{
+        width: 100%;
+        top: 16vh;
+        left: 0;
+    }
+    .trailerMovie{
+        width: 95%;
+        margin: 0 0 8rem 0;
+    }
+}
+@media screen and (max-width: 480px){
+    :root{
+        --heightDetailPoster: 80vw;
+        --widthActorCard: clamp(6.5rem,6.5rem + 0.5vw,9rem);
+        --rCricleRate: 1.5rem;
+        --strokeWCricleRate: 0.4rem;
+        --voteRate:10;
+    }
+    .detailBackDrop{
+        height: 35vh;
+    }
+}
+@media screen and (max-width: 360px){
+    
+}

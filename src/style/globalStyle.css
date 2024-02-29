@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--colorBgBody);
+    font-family: 'Montserrat', sans-serif;
+}
+#root{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+:root{
+    --colorBgBody: rgb(33, 33, 33);
+    --colorTextWhite: rgb(240, 240, 240);
+    --colorTextWhite2: rgb(200, 200, 200);
+    --colorTextBlack: rgb(18, 18, 18);
+    /* header */
+    --colorBgHeader: rgb(18, 18, 18);
+    --colorBgDropNavbar: rgb(35, 40, 50);
+    --colorBorderSearch: rgba(255, 255, 255, 1);
+    --colorBgInputSearch: rgb(5,5,5);
+    --colorBgContainerSlider: rgb(25,30,35);
+    --colorBgSlider: rgb(35, 45, 60);
+    --colorBgListSlider: rgb(15, 45, 85);
+    --colorBgSliderGenres: rgb(35, 40, 50);
+    --colorFocusSlider: rgb(120, 25, 25);
+
+    /* detail */
+    --colorBgDetail: rgba(20, 20, 35, 0.5);
+    --colorBgEmpty: rgb(26, 26, 46);
+    --colorTextEmpty: rgb(20, 100, 150);
+    --colorTextShadow: rgb(0, 0, 0);
+    --colorBgComment: rgb(30, 30, 55);
+    --colorBgCommentFocus: rgb(40, 40, 60);
+    --colorShadowComment: rgba(15,15,30,0.8);
+  
+    /* footer */
+    --colorBgFooter: rgb(35, 40, 50);
+    --colorTextGray: rgb(145, 145, 145);
+    --colorSocial:  rgb(120, 120, 120);
+   
+    /* commonPage*/
+    --colorButtonWhite: rgb(230, 230, 230);
+    --colorBgPagination: rgb(40, 45, 60);
+    --colorButtonDisabled: rgb(50, 70, 95);
+    --colorTextDisabled:rgb(40, 80, 120);
+    --colorBgInput:rgb(60, 60, 70);
+    --colorBorderWhite: rgb(140, 140, 140);
+    --colorBorderGray: rgb(58, 58, 58);
+
+    --colorRed: rgb(241, 2, 56);
+    /* login */
+    --colorFocusLogin: rgb(20, 40, 55);
+}
