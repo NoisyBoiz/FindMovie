@@ -1,0 +1,48 @@
+:root{
+  --widthNavBar: clamp(14rem,14rem + 0.5vw,15rem);
+}
+.mainContainer{
+  width: calc(100% - var(--widthNavBar));
+  position: absolute;
+  top: 10vh;
+  left: var(--widthNavBar);
+  color: var(--colorTextWhite);
+  background-color: var(--colorBgBody);
+  margin: 0;
+  padding: 0;
+}
+.mainContent{
+  position: relative;
+}
+.navbarContainer{
+  width: var(--widthNavBar);
+  background-color: var(--colorBgHeader);
+  height: 90vh;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+@media screen and (max-width: 1024px){
+  :root{
+    --widthNavBar: 25%;
+  }
+}
+@media screen and (max-width: 760px){
+  .mainContainer{
+    width: 100%;
+    top: 16vh;
+    left: 0;
+  }
+  .navbarContainer{
+    display: none;
+  }
+}
+@media screen and (max-width: 480px){
+
+}
+@media screen and (max-width: 360px){
+    
+}

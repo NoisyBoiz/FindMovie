@@ -1,0 +1,22 @@
+.commonContainer h3{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    justify-items: center;
+}
+.commonContainer h3 > button{
+    border: none;
+    border-radius: 0.5rem;
+    width: 40%;
+    height: 4.5vh;
+    font-size: 1rem;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--colorTextWhite);
+    background-color: var(--colorRed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: box-shadow 0.35s ease-in-out;
+}

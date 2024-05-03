@@ -1,0 +1,290 @@
+:root {
+    --app-height: 100%;
+}
+.loginPage{
+    width: clamp(40rem, 40rem + 10vw, 55rem);
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--colorBgHeader);
+    color: var(--colorTextWhite);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    box-shadow: 0 0 1rem var(--colorShadowComment);
+}
+.signinContainer,.signupContainer{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.signinContent,.signupContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+}
+.loginPage a{
+    text-decoration: none;
+    color: var(--colorTextWhite);
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    z-index: 4;
+}
+.signinContent p{
+    margin: 4% 0 0 0;
+    padding: 0;
+}
+.signinContent h1,.signupContent h1{
+    
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+}
+.signinContent form,.signupContent form{
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+.signinContent input,.signupContent input{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem 5%;
+    margin: 0.4rem 0;
+    background-color: transparent;
+    color: var(--colorTextWhite);
+    border-radius: 2rem;
+    /* border: 0.1rem solid var(--colorTextGray); */
+    transition: all 0.2s ease-in-out;
+}
+.signinContent input:focus,.signupContent input:focus{
+    outline: none;
+    background-color: var(--colorFocusLogin);
+    /* border: 0.1rem solid var(--colorTextWhite); */
+}
+.signinContent form>button,.signupContent form>button{
+    width: 100%;
+    margin: 10% 0 0 0;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    color: var(--colorTextWhite);
+    border: 0.1rem solid  var(--colorTextWhite);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.signinContent  form>button:hover,.signupContent  form>button:hover{
+    background-color: var(--colorRed);
+    border: 0.1rem solid  var(--colorRed);
+    color:rgb(240, 240, 240);
+}
+.passwordSignin,.passwordSignup{
+    width: 100%;
+    position: relative;
+}
+.passwordSignin >i,.passwordSignup >i{
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+    color: var(--colorTextWhite);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    position: absolute;
+    top:50%;
+    right:4%;
+    transform: translate(0,-50%);
+}
+.bfMobi{
+    display: none;
+    width: 70%;
+    height: fit-content;
+    margin: 0;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    color: var(--colorTextWhite);
+    border: 0;
+    background-color: var(--colorRed);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.bfMobi:hover{
+    background-color: var(--colorTextWhite);
+    color: var(--colorTextBlack);
+}
+.showSignin,.showSignup,.maskRight,.showSignupMask{
+    transform: translateX(0%);
+}
+.hiddenSignin{
+    transform: translateX(100%);
+} 
+.hiddenSignup,.maskLeft,.hiddenSignupMask{
+    transform: translateX(-100%);
+}
+.loginMask{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    right:0;
+    background-color: var(--colorRed);
+    transition: all 0.5s ease-in-out;
+    display: grid;
+    grid-template-columns: 100% 100%;
+    overflow: hidden;
+}
+.loginMaskContent,.signupMaskContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.5s ease-in-out;
+    position: relative;
+    color:rgb(240, 240, 240);
+}
+.loginMaskContent button,.signupMaskContent button{
+    width: 40%;
+    margin: 2rem 0 0 0;
+    padding: 0.3rem 1rem;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    color:rgb(240, 240, 240);
+    border: 0.1rem solid rgb(240, 240, 240);
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.loginMaskContent button:hover,.signupMaskContent button:hover{
+    background-color: rgb(240, 240, 240);
+    color: var(--colorRed);
+}
+
+.normalBorder{
+    border: 0.1rem solid var(--colorTextGray);
+}
+.normalBorder:focus{
+    border: 0.1rem solid var(--colorTextWhite);
+}
+.match{
+    border: 0.1rem solid var(--colorTextGray);
+}
+.match:focus{
+    border: 0.1rem solid rgb(61, 255, 61);
+}
+.unMatch:focus{
+    border: 0.1rem solid var(--colorRed);
+}
+.unMatch{
+    border: 0.1rem solid var(--colorRed);
+}
+.signinContainer h5,.signupContainer h5{
+    margin: 0;
+    font-weight: 200;
+    font-size: clamp(0.7rem,0.7rem + 0.5vw, 0.85rem);
+    color: var(--colorRed);
+    text-align: left;
+    width: 100%;
+}
+.showAlert{
+    display: block;
+}
+.hiddenAlert{
+    display: none;
+}
+@media screen and (max-width: 1024px){
+    
+}
+@media screen and (max-width: 760px){
+    .loginPage{
+        overflow: hidden;
+        width: 25rem;
+        height: 85%;
+        grid-template-columns: 100% 100%;
+        grid-template-rows: 20% 80%;
+        justify-content: inherit;
+        align-items: inherit;   
+        position: absolute;
+    }
+    .signinContainer,.signupContainer{
+        width: 100%;
+        height: 100%;
+        order: 2;
+        overflow: visible;
+    }
+    .signinContent,.signupContent{
+        justify-content: flex-start;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 20% 60% 20%;
+        justify-items: center;
+        align-items: center;
+    }
+    .signinContent h1,.signupContent h1{
+        margin: 0;
+    }
+    .signinContent form,.signupContent form{
+        width: 75%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+    }
+    .bfMobi{
+        display: block;
+    }
+    .showSignin,.hiddenSignup,.maskRight,.maskLeft,.hiddenSignupMask{
+        transform: translateX(0%);
+    }
+    .hiddenSignin,.showSignup,.showSignupMask{
+        transform: translateX(-100%);
+    }
+    .loginMask{
+        order: 1;
+        grid-column: 1 / span 2;
+        width: 100%;
+        height: 100%;
+        position: initial;
+        grid-template-columns: 50% 50%;
+        overflow: visible;
+        align-items: end;
+    }
+    .loginMask h1{
+        margin: 0.2rem 0;
+    } 
+    .loginMask h3{
+        margin: 0;
+    }
+    .loginMaskContent,.signupMaskContent{
+        height: 90%;
+    }
+    .signupMaskContent{
+        order: 2;
+    }
+    .loginMaskContent{
+        order: 1;
+    }
+    .loginMaskContent button,.signupMaskContent button{
+        display: none;
+    }
+}
+@media screen and (max-width: 480px){
+    .loginPage{
+        width: 100%;
+        height: max(100%,700px);
+    }
+}
+@media screen and (max-width: 360px){
+    
+}

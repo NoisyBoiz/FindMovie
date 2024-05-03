@@ -1,0 +1,178 @@
+:root{
+    --card-width: 12vw;
+}
+
+.common-container h2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: fit-content;
+    margin-left: 2vw;
+
+}
+.common-container h2>span{
+    background-color: var(--colorRed);
+    padding: 0.1% 1.5%;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    margin: 0 1%;
+}
+
+.card-container{
+    display: grid;
+    grid-template-columns: repeat(5,20%);
+    row-gap: 1.5rem;
+    justify-items: center;
+    transition: opacity 0.3s ease-in-out;
+}
+.card{
+    width: fit-content;
+    height: calc(var(--card-width)*3/2 + var(--card-width)*3/12);
+    margin: 1% 1.5%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    position: relative;
+    border-radius: 1.2rem;
+    animation: loadCard 0.5s ease-in-out forwards;
+}
+.card a{
+    text-decoration: none;
+    color: var(--colorTextWhite);
+    font-size: 0.9rem;
+}
+.card img{
+    width: var(--card-width);
+    height: calc(var(--card-width)*3/2);
+    border-radius: 1.2rem;
+    transition: transform 0.5s ease-in-out;
+}
+.card .comming{
+    margin: 0;
+    padding: 0 0.5rem;
+    width: fit-content;
+    height: 1.3rem;
+    font-size: 0.6rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    position: absolute;
+    top: 4%;
+    left: 4%;
+    color: rgb(240, 240, 240) !important;
+    background-color: var(--colorRed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+.card .rate{
+    margin: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    color: rgb(242, 242, 242) !important;
+    font-size: 0.75rem;
+    font-weight: 500;
+    position: absolute;
+    top: 4%;
+    right: 4%;
+    background-color: var(--colorRed);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card .content{
+    width: var(--card-width);
+    height: calc(var(--card-width)*3/12);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.card .title{
+    margin: 0;
+    padding: 2% 3%;
+    width: 94%;
+    height: fit-content;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.card .release-date{
+    margin: 0;
+    padding: 0 3%;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--colorRed);
+    font-style: italic;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 100%;
+	}
+	100% {
+		background-position: 0% 0%;
+	}
+}
+@keyframes loadCard{
+    0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    :root{
+        --card-width: 50vw;
+    }
+    .card-container{
+        grid-template-columns: 100%;
+    }
+}
+    
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    :root{
+        --card-width: 38vw;
+    }
+    .card-container{
+        grid-template-columns: repeat(2, 50%);
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    :root{
+        --card-width: 20vw;
+    }
+    .card-container{
+        grid-template-columns: repeat(3, 33%);
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    :root{
+        --card-width: 16vw;
+    }
+    .card-container{
+        grid-template-columns: repeat(4, 25%);
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    :root{
+        --card-width: 13vw;
+    }
+    .card-container{
+        grid-template-columns: repeat(5, 20%);
+    }
+}

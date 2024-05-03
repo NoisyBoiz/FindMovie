@@ -1,0 +1,59 @@
+:root{
+  --widthSwitch: 2.5rem;
+  --heightSwitch: 1.2rem;
+}
+.setting{
+    width: 100%;
+    height: 100vh;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+.setting h3{
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+}
+
+.setting .pagination{
+    width: fit-content; 
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 1rem 0;
+}
+.setting .pagination input[type=checkbox]{
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+.setting .pagination label {
+    cursor: pointer;
+    width: var(--widthSwitch);
+    height: var(--heightSwitch);
+    background: rgb(220, 220, 220);
+    display: block;
+    border-radius: var(--heightSwitch);
+    border: 0.05rem solid rgb(154, 154, 154);
+    position: relative;
+}
+.setting .pagination label:after {
+    content: '';
+    position: absolute;
+    top:0;
+    left:0;
+    width: var(--heightSwitch);
+    height: var(--heightSwitch);
+    background: #af2c2c;
+    border-radius: var(--heightSwitch);
+    transition: 0.3s;
+}
+.setting .pagination input:checked + label {
+    background: var(--colorRed);
+}
+.setting .pagination input:checked + label:after {
+    left: calc(100%);
+    transform: translateX(-100%);
+}
+.setting .pagination label:active:after {
+    width: calc(var(--heightSwitch)*6/4);
+}
+
