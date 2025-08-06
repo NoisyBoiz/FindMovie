@@ -45,13 +45,13 @@ function Pagination({totalPages, indexPage, setIndexPage, showPagination}){
     return(
         <div className="pagination">
             {showPagination? <>
-                <button className="btn-pre" disabled={indexPage<=1} onClick={()=>{changePage(indexPage-1,totalPages)}}><i className="fa-solid fa-chevron-left"></i></button>
+                {/* <button className="btn-pre" disabled={indexPage<=1} onClick={()=>{changePage(indexPage-1,totalPages)}}><i className="fa-solid fa-chevron-left"></i></button> */}
                 <div className="btn-index"> 
                     {arrButPage.length&&arrButPage.map((item,index)=>{
                         return <button key={index} className={item.index===indexPage?"focus":"unfocus"} onClick={()=>{changePage(item.index,totalPages)}}> {item.sign} </button>
                     })}
                 </div>
-                <button className="btn-next" disabled={indexPage>=totalPages} onClick={()=>{changePage(indexPage+1,totalPages) }}><i className="fa-solid fa-chevron-right"></i></button>
+                {/* <button className="btn-next" disabled={indexPage>=totalPages} onClick={()=>{changePage(indexPage+1,totalPages) }}><i className="fa-solid fa-chevron-right"></i></button> */}
                 <div className="input"> <input type="number" value={inputPage} onChange={(e)=>{setInputPage(e.target.value);}} onKeyDown={(e)=>{if(e.key==="Enter"){if(Number(inputPage)>0&&Number(inputPage)<=totalPages){changePage(Number(inputPage),totalPages)}}}}/> <span> / {totalPages} </span> </div>
             </>
             :

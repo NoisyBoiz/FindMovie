@@ -21,7 +21,6 @@ function Home(){
     const [dataTrendingWeek,setDataTrendingWeek] = useState(null);
     const [dataBackDrop,setDataBackDrop] = useState(null);
     const [indexSlide, setIndexSlide] = useState(0);
-    const [indexSlideFlash, setIndexSlideFlash] = useState(0);
     const [preIndexSlide, setPreIndexSlide] = useState(0);
     const [trendingTime, setTrendingTime] = useState(0);
     const [totalPages,setTotalPages] = useState(0);
@@ -63,7 +62,6 @@ function Home(){
             arrTimeOut = null;
         }
         
-        setIndexSlideFlash(x);
         document.getElementsByClassName('home__backdrop')[0].style.opacity = 0;
         setTimeout(()=>{
             if(indexSlide!==undefined)
@@ -108,7 +106,6 @@ function Home(){
         if(dataBackDrop===null) return
         if(indexSlide<dataBackDrop.length - 1) moveSlideBackDrop(indexSlide+1);
         else moveSlideBackDrop(0);
-        // Don't clear timeout here since moveSlideBackDrop will handle it
     }
 
     // Handle manual poster click separately to avoid conflicts
@@ -120,7 +117,7 @@ function Home(){
         }
         
         // Only proceed if clicking a different poster
-        if(clickedIndex !== indexSlide && clickedIndex !== indexSlideFlash) {
+        if(clickedIndex !== indexSlide) {
             moveSlideBackDrop(clickedIndex);
         }
     }
@@ -260,7 +257,7 @@ function Home(){
                         {dataBackDrop!==null&&dataBackDrop.map((item,index)=>{
                             return(
                                 <div key = {item.id} className="home__poster-box" onClick={()=>{handlePosterClick(index)}}>
-                                    <img src={posterURL+item.poster_path} alt="backdrop" className={indexSlideFlash===index?"home__poster--focus":"home__poster--unfocus"}/>
+                                    <img src={posterURL+item.poster_path} alt="backdrop" className={indexSlide===index?"home__poster--focus":"home__poster--unfocus"}/>
                                 </div>
                             )
                         })}
@@ -270,39 +267,54 @@ function Home(){
 
             <div className="home__content">
                 <div className="home__trending">
-                    <div className="home__trending-controls"> <h2>{t("Trending")}</h2> <button onClick={()=>{setTrendingTime(0);}} className={trendingTime?"home__trending-button--inactive":"home__trending-button--active"}> {t("Day")} </button> <button onClick={()=>{setTrendingTime(1);}} className={trendingTime?"home__trending-button--active":"home__trending-button--inactive"}> {t("Week")} </button></div>
+                    <h2>{t("Trending")}</h2> 
+                    <div className="home__trending-controls"> 
+                        <button 
+                            onClick={()=>{setTrendingTime(0);}} 
+                            className={trendingTime?"inactive":"active"}
+                        > 
+                            {t("Day")} 
+                        </button> 
+                        <button 
+                            onClick={()=>{setTrendingTime(1);}} 
+                            className={trendingTime?"active":"inactive"}
+                        > 
+                            {t("Week")} 
+                        </button>
+                    </div>
+                    
                     <div className="home__trending-container">
                         <div className="home__trending-slide home__trending-slide--day" onMouseDown={(e)=>{DragScrolling(e,'home__trending-slide--day')}} >
                             {dataTrendingDay!==null&&dataTrendingDay.map((item,index)=>{
                                 return(
-                                    <div key = {index} className="home__trending-card home__trending-card--day">
-                                        <Link to={"/detail/movie/"+item.id} key = {item.id} onClick={scrollTop}>
+                                    <Link key={index} className="home__trending-card home__trending-card--day" to={"/detail/movie/"+item.id} onClick={scrollTop}>
+                                        <div className="home__trending-image">
                                             <img src={posterURL+item.poster_path} alt="Trending" />
-                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
-                                            <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
-                                            <div className="home__trending-content">
-                                                <p className="home__trending-title"> {item.title?item.title:item.name} </p>
-                                                <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                        <div className="home__trending-content">
+                                            <p className="home__trending-title"> {item.title?item.title:item.name} </p>
+                                            <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
+                                        </div>
+                                        {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
+                                        <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
+                                    </Link>
                                 )
                             })}
                         </div>
                         <div className="home__trending-slide home__trending-slide--week" onMouseDown={(e)=>{DragScrolling(e,'home__trending-slide--week')}} >
                             {dataTrendingWeek!==null&&dataTrendingWeek.map((item,index)=>{
                                 return(
-                                    <div key = {index} className="home__trending-card home__trending-card--week">
-                                        <Link to={"/detail/movie/"+item.id} key = {item.id} onClick={scrollTop}>
+                                    <Link key = {index} className="home__trending-card home__trending-card--week" to={"/detail/movie/"+item.id} onClick={scrollTop}>
+                                        <div className="home__trending-image">
                                             <img src={posterURL+item.poster_path} alt="Trending" />
-                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
-                                            <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
-                                            <div className="home__trending-content">
-                                                <p className="home__trending-title"> {item.title?item.title:item.name} </p>
-                                                <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
-                                            </div>
-                                        </Link>
-                                    </div>
+                                        </div>
+                                        {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
+                                        <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
+                                        <div className="home__trending-content">
+                                            <p className="home__trending-title"> {item.title?item.title:item.name} </p>
+                                            <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
+                                        </div>
+                                    </Link>
                                 )
                             })}
                         </div>

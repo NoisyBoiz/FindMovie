@@ -325,30 +325,31 @@
     border-top: 0.05rem solid var(--colorBorderGray);
     border-bottom: 0.05rem solid var(--colorBorderGray);
 }
+.home__trending h2{
+    margin: 0 0 1rem 2%;
+}
+
 .home__trending-controls{
-    margin: 0 0 2rem 3%;
-    display: grid;
-    grid-template-columns: 7rem 7rem;
-    gap:0 2%;
+    margin: 0 0 2rem 2%;
+    display: flex;
+    flex-direction: row;
+    gap:0 1rem;
 }
-.home__trending-controls h2{
-    grid-column: 1 / span 2;
-    margin: 0 2rem 1rem 0;
-}
+
 .home__trending-controls button{
-    width: 100%;
-    padding: 4% 0;
+    width: 6rem;
+    padding: 0.2rem 1rem;
     font-size: clamp(1rem,2vw,1.2rem);
     font-weight: 700;
     border: none;
     border-radius: 0.4rem;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-.home__trending-button--active{
+.home__trending-controls button.active{
     background-color: var(--colorRed);
     color: rgb(242, 242, 242) !important;
 }
-.home__trending-button--inactive{
+.home__trending-controls button.inactive{
     background-color: var(--colorBgCommentFocus);
     color: rgb(145, 145, 145) !important;
     cursor: pointer;
@@ -361,61 +362,54 @@
     position: relative;
     z-index: 2;
 }
-.home__trending-container::before{
-    content: "";
-    width: 6%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    z-index: 1;
-    background: linear-gradient(to right,var(--colorTrending) 50%,transparent);
-}
-.home__trending-container::after{
-    content: "";
-    width: 6%;
-    height: 100%;
-    position: absolute;
-    right: 0;
-    z-index: 1;
-    background: linear-gradient(to left,var(--colorTrending) 50%,transparent);
-}
 .home__trending-slide{
-    width: 92%;
+    width: 100%;
     height: calc(var(--widthCardTrending)*3/2 + var(--widthCardTrending)*3/12);
     display: flex;
     flex-direction: row;
     align-items: center;
     overflow-x: scroll;
     overflow-y: hidden;
-    padding: 0 4% 0 4%;
+    padding: 0 0 0 2%;
     position: relative;
-    transition: transform 0.5s ease-in-out,opacity 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    box-sizing: border-box;
 }
+
 .home__trending-slide::-webkit-scrollbar {
     display: none;
 }
+
 .home__trending-slide--week{
     display: none;
 }
+
 .home__trending-card{
-    width: fit-content;
     height: calc(var(--widthCardTrending)*3/2 + var(--widthCardTrending)*3/12);
-    margin: 1% 1.5%;
+    margin: 0 1rem 0 0;
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
     position: relative;
-    border-radius: 1.2rem;
-}
-.home__trending-card a{
     text-decoration: none;
     color: var(--colorTextWhite);
     font-size: 0.9rem;
+    display: grid;
+    grid-template-rows: 85% 15%;
 }
-.home__trending-card img{
+
+.home__trending-image{
     width: var(--widthCardTrending);
-    height: calc(var(--widthCardTrending)*3/2);
-    border-radius: 1.2rem;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.home__trending-card img{
+    object-fit: fill;
+    width: 100%;
+    height: 100%;
     transition: transform 0.5s ease-in-out;
 }
+
 .home__trending-badge{
     margin: 0;
     padding: 0 0.5rem;
@@ -452,7 +446,7 @@
 }
 .home__trending-content{
     width: var(--widthCardTrending);
-    height: calc(var(--widthCardTrending)*3/12);
+    /* height: calc(var(--widthCardTrending)*3/12); */
     position: absolute;
     bottom: 0;
     left: 0;
@@ -482,7 +476,7 @@
 @media screen and (max-width: 1024px){
     :root{
         --widthSlidePoster:12vw;
-        --widthCardTrending: 20vw;
+        --widthCardTrending: 15vw;
         --heightTopContent: 50vh;
     }
     .home__backdrop-time{
@@ -492,16 +486,13 @@
 @media screen and (max-width: 760px){
     :root{
         --widthSlidePoster:12vw;
-        --widthCardTrending: 26vw;
+        --widthCardTrending: 20vw;
         --heightTopContent: 45vh;
         --widthImgBackDrop: 80%;
         --widthBDContent:50%;
     }
     .home__backdrop-time{
         padding: 0 4rem 0 0;
-    }
-    .home__trending-controls{
-        grid-template-columns: 6rem 6rem;
     }
     .home__overview{
         -webkit-line-clamp: 2;
@@ -519,12 +510,6 @@
     }
     .home__backdrop-time{
         padding: 0 3rem 0 0;
-    }
-    .home__trending-controls{
-        grid-template-columns: 5.5rem 5.5rem;
-    }
-    .home__trending-card{
-        margin: 1% 3%;
     }
     .home__overview{
         -webkit-line-clamp: 2;
