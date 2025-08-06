@@ -2,10 +2,10 @@ import React, {useState,useEffect} from "react";
 import {useParams} from "react-router-dom";
 import {useTranslation} from 'react-i18next';
 import "../style/tvShows.css"
-import CardMovie from "../component/cardMovie";
-import Pagination from "../component/pagination"
-import MoviesService from "../services/movies.js";
-import LocalStorage from "../function/localStorage.js";
+import CardMovie from "../component/cardMovie.jsx";
+import Pagination from "../component/pagination.jsx"
+import MoviesService from "../services/movies.jsx";
+import LocalStorage from "../utils/localStorage.jsx";
 
 function TVShows () {
     const {t} = useTranslation();

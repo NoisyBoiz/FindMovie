@@ -1,13 +1,13 @@
 import React,{useEffect}  from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom" 
 import ReactDOM from 'react-dom/client';
-import {publicRoutes} from './router/routes';
+import {publicRoutes} from './router/routes.jsx';
 import { useTranslation } from 'react-i18next';
-import "./i18n/i18n";
+import "./i18n/i18n.jsx";
 import "./style/globalStyle.css";
-import Layout from './layout';
-import DarkMode from './function/darkMode';
-import LocalStorage from "./function/localStorage.js";
+import Layout from './layout/index.jsx';
+import DarkMode from './utils/darkMode.jsx';
+import LocalStorage from "./utils/localStorage.jsx";
 
 function Main(){
   const {i18n} = useTranslation();

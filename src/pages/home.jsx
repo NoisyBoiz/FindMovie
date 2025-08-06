@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import {useTranslation} from 'react-i18next';
 import "../style/home.css";
 
 import {GoStar} from 'react-icons/go';
 
-import CardMovie from "../component/cardMovie";
-import Pagination from "../component/pagination"
-import StyleTitle from "../function/styleTitle";
-import DragScrolling from "../function/dragScrolling";
-import MoviesService from "../services/movies.js";
-import LocalStorage from "../function/localStorage.js";
-import ListData from "../data/listData.js";
+import CardMovie from "../component/cardMovie.jsx";
+import Pagination from "../component/pagination.jsx"
+import StyleTitle from "../utils/styleTitle.jsx";
+import DragScrolling from "../utils/dragScrolling.jsx";
+import MoviesService from "../services/movies.jsx";
+import LocalStorage from "../utils/localStorage.jsx";
+import ListData from "../data/listData.jsx";
 
 function Home(){
     const {t} = useTranslation();
@@ -57,14 +57,20 @@ function Home(){
     },[trendingTime,LocalStorage.getLanguage()]);
     // 
     const changeIndexSlice = (x) => {
+        // Clear any existing timers to prevent conflicts
+        if(arrTimeOut!== null){
+            clearTimeout(arrTimeOut);
+            arrTimeOut = null;
+        }
+        
         setIndexSlideFlash(x);
-        document.getElementsByClassName('homeBackDrop')[0].style.opacity = 0;
+        document.getElementsByClassName('home__backdrop')[0].style.opacity = 0;
         setTimeout(()=>{
             if(indexSlide!==undefined)
                 setIndexSlide(x);
             setTimeout(()=>{
-                if(document.getElementsByClassName('homeBackDrop')[0]!==undefined)
-                    document.getElementsByClassName('homeBackDrop')[0].style.opacity = 1;
+                if(document.getElementsByClassName('home__backdrop')[0]!==undefined)
+                    document.getElementsByClassName('home__backdrop')[0].style.opacity = 1;
             },20);
         },360);
     }
@@ -76,18 +82,25 @@ function Home(){
             arrTimeOut = null;
         }
         
-        if(x!==preIndexSlide&&document.querySelector('.homePosterBox')!==null){
+        if(x!==preIndexSlide&&document.querySelector('.home__poster-box')!==null){
             changeIndexSlice(x);
             let n=x;
             if(x<preIndexSlide) n--;
-            let width = document.querySelector('.homePosterBox').offsetWidth;
+            let width = document.querySelector('.home__poster-box').offsetWidth;
             if(n===1) width=width/1.5;
             if(n>dataBackDrop.length/2) {
                 if(x>preIndexSlide) width=width*1.09;
                 else width=width*1.16;
             }
-            document.getElementsByClassName('homeSlideCard')[0].scrollTo({left:width*n,top: 0,behavior:'smooth'});
+            document.getElementsByClassName('home__slide-card')[0].scrollTo({left:width*n,top: 0,behavior:'smooth'});
             setPreIndexSlide(x);
+            
+            // Reset auto-slide timer after manual interaction
+            if(arrTimeOut!==null){
+                clearTimeout(arrTimeOut);
+                arrTimeOut = null;
+            }
+            arrTimeOut = setTimeout(timeSlide,5000);
         }
     }
 
@@ -95,15 +108,42 @@ function Home(){
         if(dataBackDrop===null) return
         if(indexSlide<dataBackDrop.length - 1) moveSlideBackDrop(indexSlide+1);
         else moveSlideBackDrop(0);
-        clearTimeout(arrTimeOut);
+        // Don't clear timeout here since moveSlideBackDrop will handle it
+    }
+
+    // Handle manual poster click separately to avoid conflicts
+    const handlePosterClick = (clickedIndex) => {
+        // Clear existing auto-slide timer immediately
+        if(arrTimeOut!== null){
+            clearTimeout(arrTimeOut);
+            arrTimeOut = null;
+        }
+        
+        // Only proceed if clicking a different poster
+        if(clickedIndex !== indexSlide && clickedIndex !== indexSlideFlash) {
+            moveSlideBackDrop(clickedIndex);
+        }
     }
 
     useEffect(()=>{
+        // Clear existing timer first
         if(arrTimeOut!==null){
             clearTimeout(arrTimeOut);
             arrTimeOut = null;
         }
-        arrTimeOut = setTimeout(timeSlide,5000);
+        
+        // Only set new timer if data is available
+        if(dataBackDrop !== null) {
+            arrTimeOut = setTimeout(timeSlide,5000);
+        }
+        
+        // Cleanup function
+        return () => {
+            if(arrTimeOut!==null){
+                clearTimeout(arrTimeOut);
+                arrTimeOut = null;
+            }
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[indexSlide,dataBackDrop]);
     
@@ -111,16 +151,16 @@ function Home(){
     useEffect(()=>{
         let hiddenElement,showELement,hiddenImg,showImg;
         if(trendingTime){
-            hiddenElement = document.getElementsByClassName("trendingSlideDay");
-            showELement = document.getElementsByClassName("trendingSlideWeek");
-            hiddenImg = document.getElementsByClassName("styleImgTrending1");
-            showImg = document.getElementsByClassName("styleImgTrending2");
+            hiddenElement = document.getElementsByClassName("home__trending-slide--day");
+            showELement = document.getElementsByClassName("home__trending-slide--week");
+            hiddenImg = document.getElementsByClassName("home__trending-card--day");
+            showImg = document.getElementsByClassName("home__trending-card--week");
         }
         else {
-            hiddenElement = document.getElementsByClassName("trendingSlideWeek");
-            showELement = document.getElementsByClassName("trendingSlideDay");
-            hiddenImg = document.getElementsByClassName("styleImgTrending2");
-            showImg = document.getElementsByClassName("styleImgTrending1");
+            hiddenElement = document.getElementsByClassName("home__trending-slide--week");
+            showELement = document.getElementsByClassName("home__trending-slide--day");
+            hiddenImg = document.getElementsByClassName("home__trending-card--week");
+            showImg = document.getElementsByClassName("home__trending-card--day");
         }
         if(hiddenElement[0]!==undefined) hiddenElement[0].style.opacity = "0";
         if(hiddenImg!==undefined)
@@ -181,30 +221,30 @@ function Home(){
     return(
         <>
         <div className="home">
-            <div className="homeTop"> 
+            <div className="home__hero"> 
                 {dataBackDrop!==null?
-                    <div className="homeBackDrop" > 
-                        <div className="imgBackDrop"><img src={backDropURL + dataBackDrop[indexSlide].backdrop_path} alt="backdrop"/></div>
-                        <div className="backDropContent"> 
-                            <div className="topBDContent">
-                                <div className="backDropComing" style={cmpDate(getReleaseDate(dataBackDrop[indexSlide]))?{opacity:1}:{opacity:0}}> {t("Coming Soon")} </div>
-                                <div className="bottomTBDContent">
-                                    <span className="backDropTime"> {formatTime(getReleaseDate(dataBackDrop[indexSlide]))} </span>
-                                    <span className="backDropRate"> <span className="rateAverage"> <p> <GoStar/> </p> {Math.floor(dataBackDrop[indexSlide].vote_average*10)/10} </span>  <span className="backDropVoteCount"> {dataBackDrop[indexSlide].vote_count} </span> </span> 
-                                    <div className="backDropGenres"> 
+                    <div className="home__backdrop" > 
+                        <div className="home__backdrop-image"><img src={backDropURL + dataBackDrop[indexSlide].backdrop_path} alt="backdrop"/></div>
+                        <div className="home__backdrop-content"> 
+                            <div className="home__backdrop-header">
+                                <div className="home__coming-badge" style={cmpDate(getReleaseDate(dataBackDrop[indexSlide]))?{opacity:1}:{opacity:0}}> {t("Coming Soon")} </div>
+                                <div className="home__backdrop-meta">
+                                    <span className="home__release-date"> {formatTime(getReleaseDate(dataBackDrop[indexSlide]))} </span>
+                                    <span className="home__rating"> <span className="home__rating-average"> <p> <GoStar/> </p> {Math.floor(dataBackDrop[indexSlide].vote_average*10)/10} </span>  <span className="home__vote-count"> {dataBackDrop[indexSlide].vote_count} </span> </span> 
+                                    <div className="home__genres"> 
                                         {getGenres(dataBackDrop[indexSlide].genre_ids).map((item,index)=>{
                                             return(<div key={index}>{t(item)}</div>)
                                         })}
                                     </div>
                                 </div>
                             </div>
-                            <div className="backDropTitle">{StyleTitle(dataBackDrop[indexSlide].title)}</div>
-                            <div className="backDropOverview">{dataBackDrop[indexSlide].overview}</div>
-                            <div className="bottomBDContent">
-                                <Link to={"/detail/movie/"+dataBackDrop[indexSlide].id} className="buttonDetailBD" onClick={scrollTop}>
+                            <div className="home__title">{StyleTitle(dataBackDrop[indexSlide].title)}</div>
+                            <div className="home__overview">{dataBackDrop[indexSlide].overview}</div>
+                            <div className="home__actions">
+                                <Link to={"/detail/movie/"+dataBackDrop[indexSlide].id} className="home__detail-button" onClick={scrollTop}>
                                     <button> {t("Detail")} </button>
                                 </Link>
-                                <button className={`buttonFavoriteBD ${arrFavorite.find(item=>item.id===dataBackDrop[indexSlide].id)?"activeFavorite":"inactiveFavorite"}`} 
+                                <button className={`home__favorite-button ${arrFavorite.find(item=>item.id===dataBackDrop[indexSlide].id)?"home__favorite-button--active":"home__favorite-button--inactive"}`} 
                                     onClick={()=>{
                                         let rs = LocalStorage.setFavorite(dataBackDrop[indexSlide].id,"movie",dataBackDrop[indexSlide].poster_path,dataBackDrop[indexSlide].title,getReleaseDate(dataBackDrop[indexSlide]),dataBackDrop[indexSlide].vote_average);
                                         if(rs!==null) setArrFavorite(rs);
@@ -215,12 +255,12 @@ function Home(){
                     </div>
                 :""
                 }
-                <div className="homeSlideContainer">
-                    <div className="homeSlideCard">
+                <div className="home__slide-container">
+                    <div className="home__slide-card">
                         {dataBackDrop!==null&&dataBackDrop.map((item,index)=>{
                             return(
-                                <div key = {item.id} className="homePosterBox" onClick={()=>{moveSlideBackDrop(index)}}>
-                                    <img src={posterURL+item.poster_path} alt="backdrop" className={indexSlideFlash===index?"focusPoster":"unfocusPoster"}/>
+                                <div key = {item.id} className="home__poster-box" onClick={()=>{handlePosterClick(index)}}>
+                                    <img src={posterURL+item.poster_path} alt="backdrop" className={indexSlideFlash===index?"home__poster--focus":"home__poster--unfocus"}/>
                                 </div>
                             )
                         })}
@@ -228,38 +268,38 @@ function Home(){
                 </div>
             </div>
 
-            <div className="homeContent">
-                <div className="trendingContainer">
-                    <div className="timeTrending"> <h2>{t("Trending")}</h2> <button onClick={()=>{setTrendingTime(0);}} className={trendingTime?"unfocusTrendingTime":"focusTrendingTime"}> {t("Day")} </button> <button onClick={()=>{setTrendingTime(1);}} className={trendingTime?"focusTrendingTime":"unfocusTrendingTime"}> {t("Week")} </button></div>
-                    <div className="trendingBox">
-                        <div className="trendingSlide trendingSlideDay" onMouseDown={(e)=>{DragScrolling(e,'trendingSlideDay')}} >
+            <div className="home__content">
+                <div className="home__trending">
+                    <div className="home__trending-controls"> <h2>{t("Trending")}</h2> <button onClick={()=>{setTrendingTime(0);}} className={trendingTime?"home__trending-button--inactive":"home__trending-button--active"}> {t("Day")} </button> <button onClick={()=>{setTrendingTime(1);}} className={trendingTime?"home__trending-button--active":"home__trending-button--inactive"}> {t("Week")} </button></div>
+                    <div className="home__trending-container">
+                        <div className="home__trending-slide home__trending-slide--day" onMouseDown={(e)=>{DragScrolling(e,'home__trending-slide--day')}} >
                             {dataTrendingDay!==null&&dataTrendingDay.map((item,index)=>{
                                 return(
-                                    <div key = {index} className="trendingCard styleImgTrending1">
+                                    <div key = {index} className="home__trending-card home__trending-card--day">
                                         <Link to={"/detail/movie/"+item.id} key = {item.id} onClick={scrollTop}>
                                             <img src={posterURL+item.poster_path} alt="Trending" />
-                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="trendingCardComing">{t("Coming Soon")}</p>}
-                                            <p className="trendingCardRate"> {Math.floor(item.vote_average*10)/10} </p>
-                                            <div className="trendingCardContent">
-                                                <p className="trendingCardName"> {item.title?item.title:item.name} </p>
-                                                <p className="trendingCardDay"> {item.release_date?item.release_date:item.first_air_date} </p>
+                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
+                                            <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
+                                            <div className="home__trending-content">
+                                                <p className="home__trending-title"> {item.title?item.title:item.name} </p>
+                                                <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
                                             </div>
                                         </Link>
                                     </div>
                                 )
                             })}
                         </div>
-                        <div className="trendingSlide trendingSlideWeek" onMouseDown={(e)=>{DragScrolling(e,'trendingSlideWeek')}} >
+                        <div className="home__trending-slide home__trending-slide--week" onMouseDown={(e)=>{DragScrolling(e,'home__trending-slide--week')}} >
                             {dataTrendingWeek!==null&&dataTrendingWeek.map((item,index)=>{
                                 return(
-                                    <div key = {index} className="trendingCard styleImgTrending2">
+                                    <div key = {index} className="home__trending-card home__trending-card--week">
                                         <Link to={"/detail/movie/"+item.id} key = {item.id} onClick={scrollTop}>
                                             <img src={posterURL+item.poster_path} alt="Trending" />
-                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="trendingCardComing">{t("Coming Soon")}</p>}
-                                            <p className="trendingCardRate"> {Math.floor(item.vote_average*10)/10} </p>
-                                            <div className="trendingCardContent">
-                                                <p className="trendingCardName"> {item.title?item.title:item.name} </p>
-                                                <p className="trendingCardDay"> {item.release_date?item.release_date:item.first_air_date} </p>
+                                            {cmpDate(item.release_date?item.release_date:item.first_air_date)&&<p className="home__trending-badge">{t("Coming Soon")}</p>}
+                                            <p className="home__trending-rating"> {Math.floor(item.vote_average*10)/10} </p>
+                                            <div className="home__trending-content">
+                                                <p className="home__trending-title"> {item.title?item.title:item.name} </p>
+                                                <p className="home__trending-date"> {item.release_date?item.release_date:item.first_air_date} </p>
                                             </div>
                                         </Link>
                                     </div>
@@ -270,8 +310,9 @@ function Home(){
                 </div>
                 <div className="common-container">
                     <h2> {t("Popular")} </h2>
-                    {dataPopular!==null&&<>
-                            <CardMovie data={dataPopular}/>
+                    {dataPopular!==null&&
+                        <>
+                            <CardMovie data={dataPopular} method={"movie"}/>
                             <Pagination totalPages={totalPages} indexPage={indexPage} setIndexPage={setIndexPage} showPagination={LocalStorage.getShowPagination()}/>
                         </>
                     }

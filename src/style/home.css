@@ -9,19 +9,19 @@
 .home{
     width: 100%;
 }
-.homeTop{
+.home__hero{
     width: 100%;
     height: calc(var(--heightTopContent)*0.85 + var(--widthSlidePoster)*1.5);
     position: relative;
     background-color: var(--colorBgBody);
 }
-.homeBackDrop{
+.home__backdrop{
     width: 100%;
     height: var(--heightTopContent);
     position: relative;
     transition: opacity 0.35s ease-in-out;
 }
-.imgBackDrop{
+.home__backdrop-image{
     width: var(--widthImgBackDrop);
     height: 100%;
     position: absolute;
@@ -29,7 +29,7 @@
     right: 0;
     z-index: 1;
 }
-.imgBackDrop::before{
+.home__backdrop-image::before{
     width: 100%;
     height: 100%;
     background: linear-gradient(to right,var(--colorBgBody) 5%, transparent 25%);
@@ -37,7 +37,7 @@
     content: "";
     z-index: 1;
 }
-.imgBackDrop::after{
+.home__backdrop-image::after{
     width: 100%;
     height: 100%;
     background: linear-gradient(to top, var(--colorBgBody) 8%,transparent 25%);
@@ -45,14 +45,14 @@
     content: "";
     z-index: 1;
 }
-.homeBackDrop img{
+.home__backdrop img{
     width: 100%;
     height: 100%;
     filter: brightness(1.1) saturate(1.1) contrast(1.1);
     position: absolute;
     z-index: 0;
 }
-.backDropContent{
+.home__backdrop-content{
     width: var(--widthBDContent);
     height: 100%;
     box-sizing: border-box;
@@ -63,7 +63,7 @@
     padding: 2%;
 }
 
-.backDropComing{
+.home__coming-badge{
     width: fit-content;
     height: fit-content;
     margin: 1% 0;
@@ -76,25 +76,25 @@
     text-transform: uppercase;
     transform: skewX(-15deg);
 }
-.topBDContent{
+.home__backdrop-header{
     width: 100%;
     height: fit-content;
     position: relative;
 }
-.bottomTBDContent{
+.home__backdrop-meta{
     width: 100%;
     height: fit-content;
 }
-.topBDContent span{
+.home__backdrop-header span{
     font-size: clamp(0.75rem,1vw,1rem);
 }
-.backDropTime{
+.home__release-date{
     padding: 0 6rem 0 0;
     color: var(--colorRed);
     font-weight: 600;
     font-style: italic;
 }
-.backDropRate{
+.home__rating{
     display: inline-flex;
     justify-content: center;
     flex-direction: row;
@@ -102,7 +102,7 @@
     color: var(--colorTextWhite);
     padding: 0 0.3rem 0 0.1rem;
 }
-.rateAverage p{
+.home__rating-average p{
     margin: 0 0.2rem 0 0;
     color: rgb(255, 200, 27);
     display: inline-flex;
@@ -110,13 +110,13 @@
     align-items: center;
     font-size: clamp(0.75rem,1vw,1rem);
 }
-.rateAverage{
+.home__rating-average{
     display: inline-flex;
     justify-content: center;
     align-items: center;
     margin: 0 0.5rem 0 0;
 }
-.backDropVoteCount{
+.home__vote-count{
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -124,25 +124,25 @@
     padding-left: 0.5rem;
     border-left: 0.08rem solid var(--colorTextWhite);
 }
-.backDropGenres{
+.home__genres{
     display: flex;
     flex-direction: row;
     text-transform: uppercase;
 }
-.backDropGenres div{
+.home__genres div{
     margin: 1% 0 0 0;
     padding: 0 clamp(0.05rem,3vw,0.3rem);
     font-size: clamp(0.6rem,1vw,0.7rem);
     font-weight: 500;
     color: var(--colorTextWhite);
 }
-.backDropGenres div:nth-child(1){
+.home__genres div:nth-child(1){
     padding: 0 clamp(0.05rem,3vw,0.3rem) 0 0;
 }
-.backDropGenres div:nth-child(n+2){
+.home__genres div:nth-child(n+2){
     border-left: 0.05rem solid var(--colorBorderWhite);
 }
-.backDropTitle{
+.home__title{
     height: clamp(32%,1vw,50%);
     display: flex;
     flex-direction: column;
@@ -165,20 +165,21 @@
     font-weight: 800;
     font-family: 'Raleway', sans-serif; 
 }
-.backDropOverview{
+.home__overview{
     margin: 0rem 0 clamp(0.4rem,2vw,1rem);
     width: clam(70%,2vw,100%);
     font-size: clamp(0.7rem,2vw,1rem);
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.buttonDetailBD{
+.home__detail-button{
     text-decoration: none;
 }
-.bottomBDContent{
+.home__actions{
     width: 100%;
     height: fit-content;
     position: relative;
@@ -186,11 +187,11 @@
     grid-template-columns: 40% 40%;
     gap: 0 5%;
 }
-.buttonDetailBD {
+.home__detail-button {
     width: 100%;
     height: fit-content;
 }
-.buttonDetailBD button{
+.home__detail-button button{
     border: none;
     border-radius: 0.5rem;
     width: 100%;
@@ -206,10 +207,10 @@
     cursor: pointer;
     transition: box-shadow 0.35s ease-in-out;
 }
-.buttonDetailBD button:hover{
+.home__detail-button button:hover{
     box-shadow: 0 0 1rem var(--colorRed);
 }
-.buttonFavoriteBD{
+.home__favorite-button{
     border: none;
     border-radius: 0.5rem;
     width: 100%;
@@ -223,32 +224,32 @@
     cursor: pointer;
     transition: box-shadow 0.35s ease-in-out,background-color 0.15s ease-in-out,color 0.15s ease-in-out;
 }
-.buttonFavoriteBD:hover{
+.home__favorite-button:hover{
     box-shadow: 0 0 1rem #b1b1b1;
 }
-.buttonFavoriteBD i{
+.home__favorite-button i{
     font-size: clamp(0.6rem, 0.6rem + 0.2vw,1.1rem);
     padding: 0 clamp(0.15rem,0.15rem + 0.2vw ,0.3rem) 0 0;
     transition: all 0.15s ease-in-out;
 }
-.activeFavorite{
+.home__favorite-button--active{
     color: azure;
     background-color: var(--colorRed);
 }
-.inactiveFavorite{
+.home__favorite-button--inactive{
     color: var(--colorTextBlack);
     background-color: var(--colorTextWhite);
 }
-.activeFavorite i{
+.home__favorite-button--active i{
     color: rgb(241, 2, 56);
     -webkit-text-stroke: 0.1rem #ffffff;
 }
-.inactiveFavorite i{
+.home__favorite-button--inactive i{
     color: transparent;
     -webkit-text-stroke: 0.1rem var(--colorRed);
 }
 
-.homeSlideContainer{
+.home__slide-container{
     width: var(--widthImgBackDrop);
     height: calc(var(--widthSlidePoster)*1.5);
     position: absolute;
@@ -258,7 +259,7 @@
     flex-direction: row;
     z-index: 1;
 }
-/* .homeSlideContainer::before{
+/* .home__slide-container::before{
     content: "";
     width: 10%;
     height: 100%;
@@ -269,7 +270,7 @@
     z-index: 1;
     background: linear-gradient(to right, var(--colorBgBody) 50%,transparent);
 }
-.homeSlideContainer::after{
+.home__slide-container::after{
     content: "";
     width: 10%;
     height: var(--widthSlidePoster);
@@ -279,7 +280,7 @@
     z-index: 1;
     background: linear-gradient(to left, var(--colorBgBody) 50%,transparent);
 } */
-.homeSlideCard{
+.home__slide-card{
     width: 76%;
     height: calc(var(--widthSlidePoster)*1.5);
     display: flex;
@@ -290,11 +291,11 @@
     position: absolute;
     bottom: 0;
 }
-.homeSlideCard::-webkit-scrollbar {
+.home__slide-card::-webkit-scrollbar {
     display: none;
 }
 
-.homePosterBox{
+.home__poster-box{
     width: fit-content;
     height: calc(var(--widthSlidePoster)*1.5);
     margin: 0 1vw;
@@ -302,21 +303,21 @@
     align-items: flex-end;
     transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
-.homePosterBox img{
+.home__poster-box img{
     border-radius: 0.5rem;
     transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
 }
-.focusPoster{
+.home__poster--focus{
     width: var(--widthSlidePoster);
     height: calc(var(--widthSlidePoster)*1.5);
 }
-.unfocusPoster{
+.home__poster--unfocus{
     width: calc(var(--widthSlidePoster)*2/3);
     height: var(--widthSlidePoster);
     cursor: pointer;
 }
 
-.trendingContainer{
+.home__trending{
     width: 100%;
     height: fit-content;
     position: relative;
@@ -324,17 +325,17 @@
     border-top: 0.05rem solid var(--colorBorderGray);
     border-bottom: 0.05rem solid var(--colorBorderGray);
 }
-.timeTrending{
+.home__trending-controls{
     margin: 0 0 2rem 3%;
     display: grid;
     grid-template-columns: 7rem 7rem;
     gap:0 2%;
 }
-.timeTrending h2{
+.home__trending-controls h2{
     grid-column: 1 / span 2;
     margin: 0 2rem 1rem 0;
 }
-.timeTrending button{
+.home__trending-controls button{
     width: 100%;
     padding: 4% 0;
     font-size: clamp(1rem,2vw,1.2rem);
@@ -343,16 +344,16 @@
     border-radius: 0.4rem;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-.focusTrendingTime{
+.home__trending-button--active{
     background-color: var(--colorRed);
     color: rgb(242, 242, 242) !important;
 }
-.unfocusTrendingTime{
+.home__trending-button--inactive{
     background-color: var(--colorBgCommentFocus);
     color: rgb(145, 145, 145) !important;
     cursor: pointer;
 }
-.trendingBox{
+.home__trending-container{
     width: 100%;
     height: calc(var(--widthCardTrending)*3/2 + var(--widthCardTrending)*3/12);
     display: flex;
@@ -360,7 +361,7 @@
     position: relative;
     z-index: 2;
 }
-.trendingBox::before{
+.home__trending-container::before{
     content: "";
     width: 6%;
     height: 100%;
@@ -369,7 +370,7 @@
     z-index: 1;
     background: linear-gradient(to right,var(--colorTrending) 50%,transparent);
 }
-.trendingBox::after{
+.home__trending-container::after{
     content: "";
     width: 6%;
     height: 100%;
@@ -378,7 +379,7 @@
     z-index: 1;
     background: linear-gradient(to left,var(--colorTrending) 50%,transparent);
 }
-.trendingSlide{
+.home__trending-slide{
     width: 92%;
     height: calc(var(--widthCardTrending)*3/2 + var(--widthCardTrending)*3/12);
     display: flex;
@@ -389,15 +390,14 @@
     padding: 0 4% 0 4%;
     position: relative;
     transition: transform 0.5s ease-in-out,opacity 0.5s ease-in-out;
-   
 }
-.trendingSlide::-webkit-scrollbar {
+.home__trending-slide::-webkit-scrollbar {
     display: none;
 }
-.trendingSlideWeek{
+.home__trending-slide--week{
     display: none;
 }
-.trendingCard{
+.home__trending-card{
     width: fit-content;
     height: calc(var(--widthCardTrending)*3/2 + var(--widthCardTrending)*3/12);
     margin: 1% 1.5%;
@@ -405,18 +405,18 @@
     position: relative;
     border-radius: 1.2rem;
 }
-.trendingCard a{
+.home__trending-card a{
     text-decoration: none;
     color: var(--colorTextWhite);
     font-size: 0.9rem;
 }
-.trendingCard img{
+.home__trending-card img{
     width: var(--widthCardTrending);
     height: calc(var(--widthCardTrending)*3/2);
     border-radius: 1.2rem;
     transition: transform 0.5s ease-in-out;
 }
-.trendingCardComing{
+.home__trending-badge{
     margin: 0;
     padding: 0 0.5rem;
     width: fit-content;
@@ -434,7 +434,7 @@
     align-items: center;
     text-transform: uppercase;
 }
-.trendingCardRate{
+.home__trending-rating{
     margin: 0;
     width: 1.5rem;
     height: 1.5rem;
@@ -449,9 +449,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
-.trendingCardContent{
+.home__trending-content{
     width: var(--widthCardTrending);
     height: calc(var(--widthCardTrending)*3/12);
     position: absolute;
@@ -461,8 +460,7 @@
     justify-content: center;
     flex-direction: column;
 }
-
-.trendingCardName{
+.home__trending-title{
     margin: 0;
     padding: 2% 3%;
     width: 94%;
@@ -473,7 +471,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.trendingCardDay{
+.home__trending-date{
     margin: 0;
     padding: 0 3%;
     font-size: 0.7rem;
@@ -487,7 +485,7 @@
         --widthCardTrending: 20vw;
         --heightTopContent: 50vh;
     }
-    .backDropTime{
+    .home__backdrop-time{
         padding: 0 5rem 0 0;
     }
 }
@@ -499,14 +497,15 @@
         --widthImgBackDrop: 80%;
         --widthBDContent:50%;
     }
-    .backDropTime{
+    .home__backdrop-time{
         padding: 0 4rem 0 0;
     }
-    .timeTrending{
+    .home__trending-controls{
         grid-template-columns: 6rem 6rem;
     }
-    .backDropOverview{
+    .home__overview{
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
 }
 @media screen and (max-width: 480px){
@@ -518,22 +517,23 @@
         --widthImgBackDrop: 100%;
         --widthBDContent:70%;
     }
-    .backDropTime{
+    .home__backdrop-time{
         padding: 0 3rem 0 0;
     }
-    .timeTrending{
+    .home__trending-controls{
         grid-template-columns: 5.5rem 5.5rem;
     }
-    .trendingCard{
+    .home__trending-card{
         margin: 1% 3%;
     }
-    .backDropOverview{
+    .home__overview{
         -webkit-line-clamp: 2;
+        line-clamp: 2;
     }
-    .imgBackDrop::before{
+    .home__backdrop-image::before{
         background: transparent;
     }
-    .imgBackDrop::after{
+    .home__backdrop-image::after{
         background: linear-gradient(to top, var(--colorBgBody),transparent);
         opacity: 1;
     }
@@ -543,7 +543,7 @@
         --widthCardTrending: 34vw;
         --widthSlidePoster:18vw;
     }
-    .backDropTime{
+    .home__backdrop-time{
         padding: 0 2rem 0 0;
     }
 }

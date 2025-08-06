@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import "../style/search.css"
 import CardMovie from "../component/cardMovie";
 import Pagination from "../component/pagination"
-import LocalStorage from "../function/localStorage";
+import LocalStorage from "../utils/localStorage";
 import MoviesService from "../services/movies";
 
 function Search () {
@@ -17,8 +17,8 @@ function Search () {
    
     useEffect(()=>{
         setIndexPage(1);
-        if(isSearch==="1") MoviesService.SearchMovie(query,LocalStorage.getLanguage(),1).then((x)=>{setData(x.results); setTotalPages(x.total_pages)});
-        else MoviesService.FilterMovie(query,LocalStorage.getLanguage(),1).then((x)=>{setData(x.results); setTotalPages(x.total_pages)});
+        if(isSearch==="1") MoviesService.searchMovie(query,LocalStorage.getLanguage(),1).then((x)=>{setData(x.results); setTotalPages(x.total_pages)});
+        else MoviesService.filterMovie(query,LocalStorage.getLanguage(),1).then((x)=>{setData(x.results); setTotalPages(x.total_pages)});
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[query]);
     
@@ -29,12 +29,12 @@ function Search () {
 
     const getData = (query,language,page)=>{
         if(LocalStorage.getShowPagination()){
-            if(isSearch==="1") MoviesService.SearchMovie(query,language,page).then((x)=>{setData(x.results);});
-            else MoviesService.FilterMovie(query,language,page).then((x)=>{setData(x.results);});
+            if(isSearch==="1") MoviesService.searchMovie(query,language,page).then((x)=>{setData(x.results);});
+            else MoviesService.filterMovie(query,language,page).then((x)=>{setData(x.results);});
         }
         else{
-            if(isSearch==="1") MoviesService.SearchMovie(query,language,page).then((x)=>{setData([...data,...x.results]);});
-            else MoviesService.FilterMovie(query,language,page).then((x)=>{setData([...data,...x.results]);});
+            if(isSearch==="1") MoviesService.searchMovie(query,language,page).then((x)=>{setData([...data,...x.results]);});
+            else MoviesService.filterMovie(query,language,page).then((x)=>{setData([...data,...x.results]);});
         }
     }
 

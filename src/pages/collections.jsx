@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useTranslation} from 'react-i18next';
 import { Link } from "react-router-dom";
-import CardMovie from "../component/cardMovie";
-import Pagination from "../component/pagination"
+import CardMovie from "../component/cardMovie.jsx";
+import Pagination from "../component/pagination.jsx"
+import LocalStorage from "../utils/localStorage.jsx";
 import "../style/collections.css"
-import LocalStorage from "../function/localStorage.js";
 
 function Collections(){
     const {t} = useTranslation();

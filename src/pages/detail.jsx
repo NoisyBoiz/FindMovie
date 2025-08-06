@@ -1,14 +1,14 @@
 import React, {useRef,useState,useEffect} from "react";
 import { useParams } from "react-router-dom";
 import YouTube from 'react-youtube';
-import ListData from "../data/listData.js";
+import ListData from "../data/listData.jsx";
 import {useTranslation} from 'react-i18next';
-import DragScrolling from "../function/dragScrolling";
+import DragScrolling from "../utils/dragScrolling.jsx";
 import {GoStar} from 'react-icons/go';
 import "../style/detail.css";
 
-import LocalStorage from "../function/localStorage.js";
-import MoviesService from "../services/movies";
+import LocalStorage from "../utils/localStorage.jsx";
+import MoviesService from "../services/movies.jsx";
 
 let videoElement = null;
 
@@ -28,9 +28,17 @@ function Detail(){
     const [listGenresBD, setListGenresBD] = useState([]);
     const [arrFavorite,setArrFavorite] = useState([]);
     const [videoTrailer,setVideoTrailer] = useState([]);
+    const trailerRef = useRef(null);
 
     const _onReady = (event) => {
         videoElement = event;
+    };
+
+    // Handle click outside trailer to close
+    const handleTrailerOverlayClick = (e) => {
+        if (trailerRef.current && !trailerRef.current.contains(e.target)) {
+            setShowTrailer(false);
+        }
     };
  
     let dataDetailFunc = (x) => {
@@ -39,9 +47,9 @@ function Detail(){
             getKeyTrailer(x);
             getGenres(x);  
         }
-        if(document.getElementsByClassName('emptyDataDetail')[0]!==undefined) {
-            x!=null?document.getElementsByClassName('emptyDataDetail')[0].style.opacity = 0:
-            document.getElementsByClassName('emptyDataDetail')[0].style.opacity = 1;
+        if(document.getElementsByClassName('detail__empty')[0]!==undefined) {
+            x!=null?document.getElementsByClassName('detail__empty')[0].style.opacity = 0:
+            document.getElementsByClassName('detail__empty')[0].style.opacity = 1;
         }
     }
 
@@ -69,6 +77,19 @@ function Detail(){
             else videoElement.target.pauseVideo();
         }
     },[showTrailer])
+
+    // Add/remove event listener for trailer overlay click
+    useEffect(() => {
+        if (showTrailer) {
+            document.addEventListener('mousedown', handleTrailerOverlayClick);
+        } else {
+            document.removeEventListener('mousedown', handleTrailerOverlayClick);
+        }
+        
+        return () => {
+            document.removeEventListener('mousedown', handleTrailerOverlayClick);
+        };
+    }, [showTrailer]);
 
     let getGenres = (x)=>{
         let genresID = [];
@@ -98,62 +119,62 @@ function Detail(){
         <>{dataDetail!=null?(
             <>
             <div className="detail">
-                <div className="detailBackDrop"> 
+                <div className="detail__backdrop"> 
                     {dataDetail!=null&&<img src={backDropURL+dataDetail.backdrop_path} alt="backDrop" />}
                 </div>
-                <div className="detailContent"> 
-                    <div className="topDetailContent"> 
+                <div className="detail__content"> 
+                    <div className="detail__header"> 
                          <h3> {dataDetail.original_title?dataDetail.original_title:dataDetail.original_name} </h3>
-                         <div className="buttonTopDC">
-                             <button className="shareBTDC"> <i className="fa-solid fa-share-nodes"></i> {t("Share")} </button>
-                             <button className={`favoriteBTDC ${arrFavorite.find(item=>item.id===dataDetail.id)?"activeFavoriteDetail":"inactiveFavoriteDetail"}`}
+                         <div className="detail__actions">
+                             <button className="detail__button detail__button--share"> <i className="fa-solid fa-share-nodes"></i> {t("Share")} </button>
+                             <button className={`detail__button detail__button--favorite ${arrFavorite.find(item=>item.id===dataDetail.id)?"active":"inactive"}`}
                                  onClick={()=>{HandleFavorite(dataDetail)}}
                              > <i className="fa-solid fa-heart"></i> {t("Favorite")} </button>
                          </div>
                     </div>
-                    <div className="centerDetailContent">
-                        <div className="leftDetailContent"> 
-                            {dataDetail!=null&&<img className="detailPosterImg" src={posterURL+dataDetail.poster_path} alt="poster" /> }
-                            <div className="bottomLDContent">
-                                <div className='rateContainer'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className='circleRate'>
-                                        <circle fill="transparent" className='fillCircle'/>
-                                        <circle fill="transparent" className='barCircleRate' style={{"--voteRate":Math.floor(dataDetail.vote_average*10)/10}} />
+                    <div className="detail__main">
+                        <div className="detail__sidebar"> 
+                            {dataDetail!=null&&<img className="detail__poster" src={posterURL+dataDetail.poster_path} alt="poster" /> }
+                            <div className="detail__rating-section">
+                                <div className='detail__rating-container'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className='detail__rating-circle'>
+                                        <circle fill="transparent" className='detail__rating-circle-bg'/>
+                                        <circle fill="transparent" className='detail__rating-circle-bar' style={{"--voteRate":Math.floor(dataDetail.vote_average*10)/10}} />
                                     </svg>
-                                    <p className='detailRate'> {Math.floor(dataDetail.vote_average*10)/10} </p>
+                                    <p className='detail__rating-text'> {Math.floor(dataDetail.vote_average*10)/10} </p>
                                 </div>
                                 <p> {dataDetail.vote_count} <span> {t("Ratings")} </span> </p>
                             </div>
                         </div>
-                        <div className="rightDetailContent"> 
-                            <h1 className="detailTitle"> {dataDetail.title?dataDetail.title:dataDetail.name} </h1>
-                            <div className="detailGenres"> {listGenresBD.map((item,index)=>{return(<span key={index}>{t(item)}</span>)})}</div>
-                            <p className="detailDate"> <span>{t("Release Date")}: </span> {dataDetail.release_date?dataDetail.release_date:dataDetail.first_air_date} </p>
-                            <p className="detailRuntime"> <span> {t("Runtime")}: </span> {convertRunTime(dataDetail.runtime)} </p>
-                            <div className="detailOverview">
+                        <div className="detail__info"> 
+                            <h1 className="detail__title"> {dataDetail.title?dataDetail.title:dataDetail.name} </h1>
+                            <div className="detail__genres"> {listGenresBD.map((item,index)=>{return(<span key={index}>{t(item)}</span>)})}</div>
+                            <p className="detail__release-date"> <span>{t("Release Date")}: </span> {dataDetail.release_date?dataDetail.release_date:dataDetail.first_air_date} </p>
+                            <p className="detail__runtime"> <span> {t("Runtime")}: </span> {convertRunTime(dataDetail.runtime)} </p>
+                            <div className="detail__overview">
                                 <p> {t("Overview")} {!dataDetail.overview&&<span> ({t("No Overview")}) </span>}</p>
                                 <span> {dataDetail.overview} </span>
                             </div>
-                            <div className="trailerDetailContainer">
+                            <div className="detail__trailer-section">
                                 <p> {t("Trailer")} {videoTrailer.length===0&&<span> ({t("No Trailer")}) </span>} </p>
-                                <div className="slideTDContainer" >
-                                    <div className="slideTD" onMouseDown={(e)=>{DragScrolling(e,"slideTDContainer")}}> 
+                                <div className="detail__trailer-list-container" >
+                                    <div className="detail__trailer-list" onMouseDown={(e)=>{DragScrolling(e,"detail__trailer-list-container")}}> 
                                         {videoTrailer.length!==0&&videoTrailer.map((x,index)=>{
-                                            return <button key={index} className="buttonShowTrailer" onClick={()=>{setShowTrailer(true);setKeyTrailer(x);}}> {<><img src={imgTrailerURL+x+endImgTrailerURL} width={150} height={90} alt="trailer"/><i className="fa-solid fa-caret-right"></i></>}  </button>
+                                            return <button key={index} className="detail__trailer-button" onClick={()=>{setShowTrailer(true);setKeyTrailer(x);}}> {<><img src={imgTrailerURL+x+endImgTrailerURL} width={150} height={90} alt="trailer"/><i className="fa-solid fa-caret-right"></i></>}  </button>
                                         })}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="detailActorContainer">
+                    <div className="detail__cast">
                     <p>  {t("Cast")} </p>
-                        <div className="listActorContainer">
-                            <div className="slideActor" onMouseDown={(e)=>{DragScrolling(e,"listActorContainer")}}>
+                        <div className="detail__cast-list">
+                            <div className="detail__cast-scroll" onMouseDown={(e)=>{DragScrolling(e,"detail__cast-list")}}>
                                 {dataDetail.credits.cast.map((item,index)=>{
                                     if(item.known_for_department === "Acting"){
                                         return(
-                                            <div className="actorCard" key={index}>
+                                            <div className="detail__actor-card" key={index}>
                                                 <img src={item.profile_path!=null?imgActorURL+item.profile_path:"https://cdn.glitch.global/f41a9bd0-8a31-41ac-a400-886f727e1815/img.jpg?v=1682936306067"} alt="actor"/>
                                                 <p> {item.original_name} </p>
                                                 <p> {item.character}</p>
@@ -164,40 +185,42 @@ function Detail(){
                             </div>
                         </div>
                     </div>
-                    <div className="cmtDetailContainer">
+                    <div className="detail__comments">
                         <p> {t("Comment")} </p>
                         {dataDetail.reviews.results.length?(dataDetail.reviews.results.map((item,index)=>{
                                 return(
                                     <>
-                                    <div className="cmtDetailCard">
-                                        <div className="topCmtCard"> 
-                                            <div className="authorCmtImg"> <img src={item.author_details.avatar_path!=null?item.author_details.avatar_path.slice(1):"https://cdn.glitch.global/f41a9bd0-8a31-41ac-a400-886f727e1815/img.jpg?v=1682936306067"} alt="author"/> </div>
-                                            <div className="authorCmtCard"> 
+                                    <div className="detail__comment-card">
+                                        <div className="detail__comment-header"> 
+                                            <div className="detail__author-avatar"> <img src={item.author_details.avatar_path!=null?item.author_details.avatar_path.slice(1):"https://cdn.glitch.global/f41a9bd0-8a31-41ac-a400-886f727e1815/img.jpg?v=1682936306067"} alt="author"/> </div>
+                                            <div className="detail__author-info"> 
                                                 <h3> {item.author_details.name!==""?item.author_details.name:item.author} {item.author_details.rating!=null? <span> <p> <GoStar/> </p> {item.author_details.rating} </span>:""} </h3>
                                                 <p> {new Date(item.created_at).toLocaleString()} </p>
                                             </div>
                                         </div>
-                                        <div className="centerCmtCard"> {item.content} </div>
+                                        <div className="detail__comment-content"> {item.content} </div>
                                     </div>
                                     </>
                                 )
                             })):<h3> {t("No Comment")} </h3>
                         }
-                        <div className="yourCmtCrad">
+                        {/* <div className="detail__comment-form">
                             <textarea type="text" placeholder={t("Write Comment")}/>
                             <button><i className="fa-regular fa-paper-plane"></i></button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
 
-            <div className={`trailerContainer ${showTrailer?"showTrailer":"hiddenTrailer"}`}> 
-               {keyTrailer!=null&&<YouTube videoId={keyTrailer} className="trailerMovie" onReady={_onReady}/>}
-                <button className="buttonHiddenTrailer" onClick={()=>{setShowTrailer(false);}}> + </button>
+            <div className={`detail__modal ${showTrailer?"detail__modal--visible":"detail__modal--hidden"}`} onClick={handleTrailerOverlayClick}> 
+                <div className="detail__modal-content" ref={trailerRef}>
+                    {keyTrailer!=null&&<YouTube videoId={keyTrailer} className="detail__video" onReady={_onReady}/>}
+                    <button className="detail__modal-close" onClick={()=>{setShowTrailer(false);}}> + </button>
+                </div>
             </div>
           
         </>
-        ):<div className="emptyDataDetail">
+        ):<div className="detail__empty">
             <h1> 4<i className="fa-solid fa-ghost"></i>4 </h1>
             <span> {t("No Detail1")} <br/>
             {t("No Detail2")} </span>

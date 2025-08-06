@@ -5,11 +5,21 @@
     position: relative;
     box-sizing: border-box;
 }
-.navbarMenu{
+
+.navbar__list{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    font-size: clamp(0.8rem, 0.8rem + 0.5vw,1.1rem);
+}
+
+.navbar__menu{
     width: 100%;
     padding: 1rem 0;
     border-bottom: 0.05rem solid var(--colorBorderSearch);
 }
+
 .navbar ul{
     width: 100%;
     margin: 0;
@@ -17,54 +27,102 @@
     list-style-type: none;
     font-size: clamp(0.8rem, 0.8rem + 0.5vw,1.1rem);
 }
+
 .navbar li{
     width: 90%;
     margin: clamp(2%, 2% + 0.5vw ,3%) 0;
-    padding: clamp(2%, 2% + 0.5vw ,3%) clamp(4%, 4% + 0.5vw ,5%);
+    padding: 0;
     font-weight: 500;
+    cursor: pointer;
 }
-.navbar li> i{
+
+.navbar__list > li{
+    width: 100%;
+    margin: clamp(2%, 2% + 0.5vw ,3%) 0;
+    padding: 0;
+}
+
+.navbar li:hover,
+.navbar li:focus {
+    outline: none;
+}
+
+.navbar li:focus-visible {
+    outline: 2px solid var(--colorTextWhite);
+    outline-offset: 2px;
+}
+
+.navbar__icon{
     width: clamp(10%,10% + 0.5vw,18%);
     font-size: clamp(0.8rem, 0.8rem + 0.5vw,1.1rem);
+    margin-right: 0.5rem;
 }
-.navbar ul> a{
+
+.navbar__text{
+    display: inline-block;
+}
+
+.navbar ul > a{
     margin: 0;
     padding: 0;
     text-decoration: none;
 }
-.focusNavbar{
-    color: var(--colorTextWhite);
-    background-color: rgb(229, 59, 21);
+
+.navbar__item{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
     transition: all 0.3s ease-in-out;
     border-radius: 0.5rem;
-}
-.unfocusNavbar{
-    background-color: transparent;
-    color: var(--colorTextWhite2);
-    transition: all 0.3s ease-in-out;
+    font-weight: 700;
+    width: 90%;
+    margin: 0;
+    padding: clamp(2%, 2% + 0.5vw ,3%) clamp(4%, 4% + 0.5vw ,5%);
 }
 
-.menuTVShow{
+.navbar__item.active{
+    color: var(--colorTextWhite);
+    background-color: rgb(229, 59, 21);
+}
+
+.navbar__item.inactive{
+    background-color: transparent;
+    color: var(--colorTextWhite2);
+}
+
+.navbar__dropdown{
     position: relative;
     padding: 0 0 3rem 0;
 }
-.menuTVShow span{
+
+.navbar__dropdown.active .navbar__dropdown-toggle{
+    color: var(--colorTextWhite);
+    background-color: rgb(229, 59, 21);
+    font-weight: 700;
+}
+
+.navbar__dropdown.inactive .navbar__dropdown-toggle{
+    background-color: transparent;
+    color: var(--colorTextWhite2);
+}
+
+.navbar__dropdown-toggle{
     display: flex;
-    flex-direction: row;
+    align-items: center;
     cursor: pointer;
+    padding: clamp(2%, 2% + 0.5vw ,3%) clamp(4%, 4% + 0.5vw ,5%);
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+    font-weight: 700;
 }
-.menuTVShow i:nth-child(1){
-    width: clamp(10%,10% + 0.5vw,18%);
+
+.navbar__dropdown-arrow{
     font-size: clamp(0.8rem, 0.8rem + 0.5vw,1.1rem);
+    margin-left: auto;
+    transition: transform 0.3s ease-in-out;
 }
-.menuTVShow i:nth-last-child(1){
-    font-size: clamp(0.8rem, 0.8rem + 0.5vw,1.1rem);
-    position: absolute;
-    top: 50%;
-    right: 10%;
-    transform: translateY(-50%);
-}
-.showMenuTVShow{
+
+.navbar__dropdown-menu{
     position: absolute;
     top: 2.2rem;
     left: 0;
@@ -73,15 +131,32 @@
     border-radius: 0.5rem;
     margin: 0;
     padding: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-.hiddenMenuTVShow{
+
+.navbar__dropdown-menu.visible{
+    display: block;
+}
+
+.navbar__dropdown-menu.hidden{
     display: none;
 }
-.showMenuTVShow a{
+
+.navbar__dropdown-menu li{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    font-weight: 700;
+}
+
+.navbar__dropdown-menu li a{
     text-decoration: none;
     color: var(--colorTextWhite2);
+    display: block;
 }
-.showMenuTVShow li{
+
+.navbar__dropdown-item{
     width: 76%;
     margin: 2% 6%;
     padding: 3% 6%;
@@ -89,22 +164,38 @@
     border-radius: 0.5rem;
     font-size: 1rem;
     transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: block;
 }
-.focusTVShowLi{
+
+.navbar__dropdown-item:hover,
+.navbar__dropdown-item:focus {
+    outline: none;
+}
+
+.navbar__dropdown-item:focus-visible {
+    outline: 2px solid var(--colorTextWhite);
+    outline-offset: 2px;
+}
+
+.navbar__dropdown-item.active{
     background-color: rgb(229, 59, 21);
     color: var(--colorTextWhite);
 }
-.unfocusTVShowLi{
+
+.navbar__dropdown-item.inactive{
     background-color: transparent;
     color: var(--colorTextWhite2);
 }
-.showMenuTVShow > a:nth-child(1) > li {
+
+.navbar__dropdown-menu > a:nth-child(1) > li {
     margin: 7% 6% 2% 6%;
 }
-.showMenuTVShow > a:nth-last-child(1) > li {
+
+.navbar__dropdown-menu > a:nth-last-child(1) > li {
     margin: 2% 6% 7% 6%;
 }
-.logOut{
+.navbar__logout{
     color: var(--colorTextWhite);  
     font-weight: 600;
     position: absolute;
@@ -112,17 +203,40 @@
     left: 40%;
     transform: translateX(-50%);
     cursor: pointer;
+    background: none;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
 }
-.navbarSetting{
+
+.navbar__logout:hover,
+.navbar__logout:focus {
+    background-color: rgba(229, 59, 21, 0.1);
+    outline: none;
+}
+
+.navbar__logout:focus-visible {
+    outline: 2px solid var(--colorTextWhite);
+    outline-offset: 2px;
+}
+
+.navbar__setting{
     width: 100%;
     padding: 1rem 0;
     color: var(--colorTextWhite);
 }
-.navbarSetting a{
+
+.navbar__setting a{
     text-decoration: none;
     color: var(--colorTextWhite2);
 }
-.navbarSetting li{
+
+.navbar__setting li{
     cursor: pointer;
 }
 @media screen and (max-width: 1024px){
