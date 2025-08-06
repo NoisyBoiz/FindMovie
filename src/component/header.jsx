@@ -241,7 +241,7 @@ function Header() {
                                         +
                                     </button>
                                 </p>
-                                <div className="header__genres-list" onMouseDown={(e) => DragScrolling(e, "listGenres")}>
+                                <div className="header__genres-list" onMouseDown={(e) => DragScrolling(e, "header__genres-list")}>
                                     <ul role="group" aria-label="Movie genres">
                                         {listData.genres.map((item, index) => (
                                             <li 

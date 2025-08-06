@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import {useTranslation} from 'react-i18next';
 import "../style/home.css";
@@ -28,7 +28,8 @@ function Home(){
     const [indexPage,setIndexPage] = useState(1);
     const [arrFavorite,setArrFavorite] = useState(LocalStorage.getFavorite());
     
-    let arrTimeOut = null;
+    // Use useRef instead of let variable for better React compatibility
+    const arrTimeOut = useRef(null);
 
     const scrollTop = ()=>{
         window.scrollTo(0,0);
@@ -57,92 +58,174 @@ function Home(){
     // 
     const changeIndexSlice = (x) => {
         // Clear any existing timers to prevent conflicts
-        if(arrTimeOut!== null){
-            clearTimeout(arrTimeOut);
-            arrTimeOut = null;
+        if(arrTimeOut.current !== null){
+            clearTimeout(arrTimeOut.current);
+            arrTimeOut.current = null;
         }
         
-        document.getElementsByClassName('home__backdrop')[0].style.opacity = 0;
-        setTimeout(()=>{
-            if(indexSlide!==undefined)
+        // Add safety checks for DOM elements
+        const backdropElement = document.getElementsByClassName('home__backdrop')[0];
+        if(!backdropElement) return;
+        
+        try {
+            backdropElement.style.opacity = 0;
+            setTimeout(() => {
+                if(indexSlide !== undefined && x >= 0 && dataBackDrop && x < dataBackDrop.length) {
+                    setIndexSlide(x);
+                    setTimeout(() => {
+                        const updatedBackdropElement = document.getElementsByClassName('home__backdrop')[0];
+                        if(updatedBackdropElement) {
+                            updatedBackdropElement.style.opacity = 1;
+                        }
+                    }, 20);
+                }
+            }, 360);
+        } catch (error) {
+            console.warn('Error in changeIndexSlice:', error);
+            // Fallback: just update the index
+            if(x >= 0 && dataBackDrop && x < dataBackDrop.length) {
                 setIndexSlide(x);
-            setTimeout(()=>{
-                if(document.getElementsByClassName('home__backdrop')[0]!==undefined)
-                    document.getElementsByClassName('home__backdrop')[0].style.opacity = 1;
-            },20);
-        },360);
+            }
+        }
     }
    
     // animation slide backdrop
     const moveSlideBackDrop = (x)=>{
-        if(arrTimeOut!== null){
-            clearTimeout(arrTimeOut);
-            arrTimeOut = null;
+        if(arrTimeOut.current !== null){
+            clearTimeout(arrTimeOut.current);
+            arrTimeOut.current = null;
         }
         
-        if(x!==preIndexSlide&&document.querySelector('.home__poster-box')!==null){
-            changeIndexSlice(x);
-            let n=x;
-            if(x<preIndexSlide) n--;
-            let width = document.querySelector('.home__poster-box').offsetWidth;
-            if(n===1) width=width/1.5;
-            if(n>dataBackDrop.length/2) {
-                if(x>preIndexSlide) width=width*1.09;
-                else width=width*1.16;
-            }
-            document.getElementsByClassName('home__slide-card')[0].scrollTo({left:width*n,top: 0,behavior:'smooth'});
-            setPreIndexSlide(x);
+        // Add safety checks for DOM elements and data
+        if(x !== preIndexSlide && 
+           dataBackDrop && 
+           dataBackDrop.length > 0 && 
+           x >= 0 && 
+           x < dataBackDrop.length &&
+           document.querySelector('.home__poster-box') !== null &&
+           document.getElementsByClassName('home__slide-card')[0] !== undefined){
             
-            // Reset auto-slide timer after manual interaction
-            if(arrTimeOut!==null){
-                clearTimeout(arrTimeOut);
-                arrTimeOut = null;
+            changeIndexSlice(x);
+            let n = x;
+            if(x < preIndexSlide) n--;
+            
+            // Add error handling for offsetWidth
+            try {
+                const posterElement = document.querySelector('.home__poster-box');
+                const slideElement = document.getElementsByClassName('home__slide-card')[0];
+                
+                if(posterElement && slideElement) {
+                    let width = posterElement.offsetWidth;
+                    if(n === 1) width = width / 1.5;
+                    if(n > dataBackDrop.length / 2) {
+                        if(x > preIndexSlide) width = width * 1.09;
+                        else width = width * 1.16;
+                    }
+                    
+                    slideElement.scrollTo({
+                        left: width * n,
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    
+                    setPreIndexSlide(x);
+                    
+                    // Reset auto-slide timer after manual interaction
+                    if(arrTimeOut.current !== null){
+                        clearTimeout(arrTimeOut.current);
+                        arrTimeOut.current = null;
+                    }
+                    arrTimeOut.current = setTimeout(timeSlide, 5000);
+                }
+            } catch (error) {
+                console.warn('Error in slide animation:', error);
+                // Fallback: just update the index without animation
+                setPreIndexSlide(x);
             }
-            arrTimeOut = setTimeout(timeSlide,5000);
         }
     }
 
-    const timeSlide = ()=>{
-        if(dataBackDrop===null) return
-        if(indexSlide<dataBackDrop.length - 1) moveSlideBackDrop(indexSlide+1);
-        else moveSlideBackDrop(0);
+    const timeSlide = () => {
+        // Add safety checks before proceeding
+        if(!dataBackDrop || dataBackDrop.length === 0) return;
+        
+        try {
+            if(indexSlide < dataBackDrop.length - 1) {
+                moveSlideBackDrop(indexSlide + 1);
+            } else {
+                moveSlideBackDrop(0);
+            }
+        } catch (error) {
+            console.warn('Error in timeSlide:', error);
+        }
     }
 
     // Handle manual poster click separately to avoid conflicts
     const handlePosterClick = (clickedIndex) => {
+        // Add safety checks
+        if(!dataBackDrop || clickedIndex < 0 || clickedIndex >= dataBackDrop.length) return;
+        
         // Clear existing auto-slide timer immediately
-        if(arrTimeOut!== null){
-            clearTimeout(arrTimeOut);
-            arrTimeOut = null;
+        if(arrTimeOut.current !== null){
+            clearTimeout(arrTimeOut.current);
+            arrTimeOut.current = null;
         }
         
         // Only proceed if clicking a different poster
         if(clickedIndex !== indexSlide) {
-            moveSlideBackDrop(clickedIndex);
+            try {
+                moveSlideBackDrop(clickedIndex);
+            } catch (error) {
+                console.warn('Error in handlePosterClick:', error);
+                // Fallback: just update the index
+                setIndexSlide(clickedIndex);
+            }
         }
     }
 
-    useEffect(()=>{
-        // Clear existing timer first
-        if(arrTimeOut!==null){
-            clearTimeout(arrTimeOut);
-            arrTimeOut = null;
-        }
-        
-        // Only set new timer if data is available
-        if(dataBackDrop !== null) {
-            arrTimeOut = setTimeout(timeSlide,5000);
-        }
-        
-        // Cleanup function
+    // Cleanup timer when component unmounts
+    useEffect(() => {
         return () => {
-            if(arrTimeOut!==null){
-                clearTimeout(arrTimeOut);
-                arrTimeOut = null;
+            if(arrTimeOut.current !== null){
+                clearTimeout(arrTimeOut.current);
+                arrTimeOut.current = null;
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        // Clear existing timer first
+        if(arrTimeOut.current !== null){
+            clearTimeout(arrTimeOut.current);
+            arrTimeOut.current = null;
+        }
+        
+        // Only set new timer if data is available and component is mounted
+        if(dataBackDrop && dataBackDrop.length > 0 && indexSlide >= 0 && indexSlide < dataBackDrop.length) {
+            // Add a slight delay to ensure DOM is ready
+            const timer = setTimeout(() => {
+                arrTimeOut.current = setTimeout(timeSlide, 5000);
+            }, 100);
+            
+            // Cleanup function
+            return () => {
+                clearTimeout(timer);
+                if(arrTimeOut.current !== null){
+                    clearTimeout(arrTimeOut.current);
+                    arrTimeOut.current = null;
+                }
+            };
+        }
+        
+        // Cleanup function for when conditions aren't met
+        return () => {
+            if(arrTimeOut.current !== null){
+                clearTimeout(arrTimeOut.current);
+                arrTimeOut.current = null;
             }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[indexSlide,dataBackDrop]);
+    }, [indexSlide, dataBackDrop]);
     
     //Animation change Trending Time
     useEffect(()=>{

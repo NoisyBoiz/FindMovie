@@ -1,6 +1,6 @@
 // this function is used to drag scrolling the slider
-function DragScrolling(e,x){
-    const slider = document.getElementsByClassName(x)[0];
+function DragScrolling(e, elementClass){
+    const slider = document.getElementsByClassName(elementClass)[0];
     if(slider!==undefined){
         e.preventDefault();
         let startX = e.pageX - slider.offsetLeft;
